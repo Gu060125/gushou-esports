@@ -60,6 +60,7 @@
     <!-- 侧栏 -->
     <aside class="admin-side">
       <a class="active" data-page="content">📝 内容管理</a>
+      <a data-page="publish">🚀 发布到线上</a>
       <a data-page="dashboard">📊 数据看板</a>
       <a data-page="orders">📋 订单管理</a>
       <a data-page="services">🎮 服务管理</a>
@@ -102,6 +103,96 @@
         </div>
 
         <div id="ctRoot" style="margin-top:16px"></div>
+      </section>
+
+      <!-- ---------- 发布到线上 ---------- -->
+      <section class="admin-page" data-page="publish">
+        <div class="admin-page-head">
+          <div>
+            <h2>发布到线上</h2>
+            <p>把「内容管理」里保存好的内容提交到 GitHub 仓库，GitHub Pages 会自动重建（约 1 分钟），此后所有访客打开公网网址看到的都是最新内容。</p>
+          </div>
+          <div class="toolbar">
+            <button class="btn btn-ghost btn-sm" type="button" id="pbCheckBtn">检测线上连接</button>
+            <button class="btn btn-primary btn-sm" type="button" id="pbPublish">立即发布到线上</button>
+          </div>
+        </div>
+
+        <div class="panel">
+          <div class="panel-head">
+            <h3>发布是怎么生效的</h3>
+            <span class="panel-sub">零成本方案 · 无需服务器</span>
+          </div>
+          <div class="pb-flow">
+            <span class="node">本机后台改内容</span>
+            <span class="arrow">→</span>
+            <span class="node">保存并生效</span>
+            <span class="arrow">→</span>
+            <span class="node">点「立即发布到线上」</span>
+            <span class="arrow">→</span>
+            <span class="node">提交到 GitHub 仓库</span>
+            <span class="arrow">→</span>
+            <span class="node">Pages 自动重建（约 1 分钟）</span>
+            <span class="arrow">→</span>
+            <span class="node">公网访客看到新内容</span>
+          </div>
+          <p class="pb-note">
+            访客打开网站时，页面会读取仓库里的数据文件 <code>assets/data/site-data.json</code>；本站的文案、价目表、联系方式等全部存在这个文件里，所以只要它更新，全站内容就更新了——不用改代码，也不用买服务器。
+          </p>
+        </div>
+
+        <div class="panel">
+          <div class="panel-head">
+            <h3>① GitHub Token（只需填一次）</h3>
+            <span id="pbTokenState" class="pb-badge">未填写</span>
+          </div>
+          <p class="pb-note">
+            Token 是你在 GitHub 生成的「写入钥匙」，用来授权本后台提交这一个仓库的文件。它<b>只保存在本机浏览器</b>（localStorage 键名 <code>gb_gh_token</code>），不会上传到任何服务器，也不会随网站文件发布出去。生成时请只勾选仓库 <b>Gu060125/gushou-esports</b>，权限只给 <b>Contents: Read and write</b>（分步指引见站点 README 的「发布到线上」一节）。
+          </p>
+          <div class="pb-row" style="margin-top:12px">
+            <input type="password" id="pbToken" placeholder="粘贴 github_pat_ 开头的细粒度 Token" autocomplete="off" spellcheck="false">
+            <button class="btn btn-ghost btn-sm" type="button" id="pbTokenToggle">显示</button>
+            <button class="btn btn-primary btn-sm" type="button" id="pbTokenSave">保存 Token</button>
+            <button class="btn btn-ghost btn-sm" type="button" id="pbTokenClear">清除 Token</button>
+          </div>
+          <p class="pb-note pb-warn">
+            <b>安全提示</b>：Token 一旦泄露，他人就能改动你的线上内容（篡改或删除数据文件）。请不要在公共电脑、他人电脑上保存；不要把它粘贴到聊天、工单或截图里；一旦怀疑泄露，立即到 GitHub 的 Settings → Developer settings → Personal access tokens 里 Revoke（吊销）它并重新生成。用完本机后可点上方「清除 Token」，把它从浏览器里彻底删除。
+          </p>
+        </div>
+
+        <div class="panel">
+          <div class="panel-head">
+            <h3>② 发布目标与检查</h3>
+            <span class="panel-sub">每次发布前会自动再校验一次</span>
+          </div>
+          <div class="pb-grid">
+            <div><span>仓库</span><b>Gu060125/gushou-esports</b></div>
+            <div><span>分支</span><b id="pbBranch">main</b></div>
+            <div><span>数据文件</span><b>assets/data/site-data.json</b></div>
+            <div><span>公网网址</span><b><a href="https://gu060125.github.io/gushou-esports/" target="_blank" rel="noopener">gu060125.github.io/gushou-esports</a></b></div>
+          </div>
+          <div class="pb-check" id="pbCheckList"></div>
+          <div class="pb-status" id="pbStatus" style="margin-top:14px">本机还没有发布记录。</div>
+          <div class="pb-steps" id="pbSteps"></div>
+        </div>
+
+        <details class="panel pb-help">
+          <summary>③ 发布失败怎么排查？（点开查看）</summary>
+          <div class="table-wrap" style="border:none">
+            <table style="min-width:auto">
+              <thead><tr><th>现象</th><th>原因与处理</th></tr></thead>
+              <tbody>
+                <tr><td>提示 Token 无效（401）</td><td>Token 没粘完整、已过期或被吊销。重新生成一个细粒度 Token（仓库选 gushou-esports、权限勾 Contents: Read and write），再「保存 Token」。</td></tr>
+                <tr><td>提示没有写入权限（403）</td><td>Token 的「Repository permissions → Contents」不是 <b>Read and write</b>，或没勾选本仓库。改权限后必须<b>重新生成</b> Token（旧 Token 的权限不会自动更新）。</td></tr>
+                <tr><td>找不到仓库 / 文件（404）</td><td>仓库名、分支写错，或 Token 未授权访问该仓库。本页顶部的仓库 / 分支 / 文件路径要和 GitHub 上完全一致。线上还没有数据文件属正常，首次发布会自动创建。</td></tr>
+                <tr><td>版本冲突（409）</td><td>线上文件刚被别的改动更新过。点「检测线上连接」刷新版本，再发布一次即可。</td></tr>
+                <tr><td>网络请求失败</td><td>本机连不上 github.com（网络 / 代理 / 防火墙），或本页是用 file:// 双击打开的。先确认浏览器能正常访问 github.com，再改用线上网址打开后台。</td></tr>
+                <tr><td>发布成功但访客看到的还是旧内容</td><td>① GitHub Pages 还在重建，等 1 分钟再刷新；② 浏览器缓存，按 Ctrl+F5 强刷，或在网址后加 <code>?v=2</code>；③ 到仓库 Settings → Pages 确认 Pages 已启用。</td></tr>
+                <tr><td>只在本机看得到改动</td><td>说明还没发布或发布失败。「保存并生效」只写本机浏览器；要让访客看到，必须在本页点「立即发布到线上」。</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </details>
       </section>
 
       <!-- ---------- 数据看板 ---------- -->
@@ -339,5 +430,6 @@
 <script src="assets/js/site-data.js"></script>
 <script src="assets/js/admin.js"></script>
 <script src="assets/js/admin-content.js"></script>
+<script src="assets/js/admin-publish.js"></script>
 </body>
 </html>
