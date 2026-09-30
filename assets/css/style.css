@@ -387,6 +387,19 @@ td strong, td b { color: var(--text); }
 }
 .qr-box b { display: block; font-size: 14.5px; margin-bottom: 4px; }
 .qr-box span { color: var(--muted); font-size: 12.6px; }
+/* 后台设置二维码图片后：隐藏文字占位，显示真实二维码 */
+.qr-box .qr-img {
+  display: none;
+  width: 168px; height: 168px;
+  margin: 0 auto 14px;
+  border-radius: 12px;
+  background: #fff;
+  border: 1px solid var(--line-strong);
+  object-fit: contain;
+  padding: 6px;
+}
+.qr-box.has-qr .qr-img { display: block; }
+.qr-box.has-qr .qr-placeholder { display: none; }
 
 /* ---------- FAQ 折叠 ---------- */
 .faq-item { border: 1px solid var(--line); border-radius: var(--radius-sm); background: var(--card); margin-bottom: 12px; overflow: hidden; }
