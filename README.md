@@ -2,12 +2,14 @@
 AIGC:
     Label: "1"
     ContentProducer: 001191440300708461136T1XGW3
-    ProduceID: 53f0fb4c9d448255aedbd8eafdbed98e_e97d1768bbd611f18442525400de85a5
-    ReservedCode1: bLKTC9VmDKHUZme1aQmAoGxTAji/NkhPSoaHpJFdN374FrlaD1lvXk0ZrN6YBWFkEpoh33fEq8M+GN8nzpMrN/9m+crWSQl9UdeYLKhHyeV3deWinscMkRnVYi03iS+tQaPnt8wNNSv0qM02kIDIiH4yED1iZ+KMFX7vjpi07x0IZvkR/uSCXqmgHxo=
+    ProduceID: 53f0fb4c9d448255aedbd8eafdbed98e_67fb188cbc8011f1a526525400cd780f
+    ReservedCode1: 5x+NZcD0NXcxtRh4TuNGHI+3a/ul4rBBlNBQ3R6m2g2n8JStA4yPtO5oQ2iRnBrUfoD1YG1SLfFfabHOvRdrf7UnWAdrTJ5nIaBgry4uB1J9gGVsAvzXgg7uZ6e8Tseq3Cer9s2dEWodyUaaf3A06ldV/jYadlJkcDQc1NwhwyT0vXoFbLUf9ateSDE=
     ContentPropagator: 001191440300708461136T1XGW3
-    PropagateID: 53f0fb4c9d448255aedbd8eafdbed98e_e97d1768bbd611f18442525400de85a5
-    ReservedCode2: bLKTC9VmDKHUZme1aQmAoGxTAji/NkhPSoaHpJFdN374FrlaD1lvXk0ZrN6YBWFkEpoh33fEq8M+GN8nzpMrN/9m+crWSQl9UdeYLKhHyeV3deWinscMkRnVYi03iS+tQaPnt8wNNSv0qM02kIDIiH4yED1iZ+KMFX7vjpi07x0IZvkR/uSCXqmgHxo=
+    PropagateID: 53f0fb4c9d448255aedbd8eafdbed98e_67fb188cbc8011f1a526525400cd780f
+    ReservedCode2: 5x+NZcD0NXcxtRh4TuNGHI+3a/ul4rBBlNBQ3R6m2g2n8JStA4yPtO5oQ2iRnBrUfoD1YG1SLfFfabHOvRdrf7UnWAdrTJ5nIaBgry4uB1J9gGVsAvzXgg7uZ6e8Tseq3Cer9s2dEWodyUaaf3A06ldV/jYadlJkcDQc1NwhwyT0vXoFbLUf9ateSDE=
 ---
+
+
 
 
 
@@ -76,7 +78,7 @@ output/
    - 服务页 · 分游戏价目表（游戏 / 服务项目 / 段位区间 / 参考单价 / 预计工时 / 状态标签）
    - 服务页 · 保障条款与常见问题
    - 联系页 · 页头与表单文案
-   - 联系方式与咨询渠道（客服 QQ / 微信 / 邮箱 / 热线 / 服务时间、二维码说明、其他沟通渠道卡片）
+   - 联系方式与咨询渠道（客服 QQ / 微信 / 邮箱 / 热线 / 服务时间、**客服二维码图片**、二维码卡片标题与说明、其他沟通渠道卡片）
 3. 直接改输入框 / 下拉框 / 开关，选择项可增删（「+ 新增一项」/「删除此项」，删除时会二次确认）；
 4. 点右上角 **保存并生效**（也可按 `Ctrl + S`），看到提示「内容已保存，前台页面刷新后立即生效」即完成。
 
@@ -95,7 +97,24 @@ output/
 | 导出内容 JSON | 把当前全部内容导出为 `gushou-site-content.json`，用于备份 |
 | 恢复默认内容 | 清除本机自定义内容，前台回到初始示例文案（不可撤销，会二次确认） |
 
-### 4. 注意事项
+### 4. 客服二维码图片怎么设置（联系页）
+
+联系页底部的客服二维码卡片支持上传真实二维码，操作路径：**📝 内容管理 → 联系方式与咨询渠道 → 客服二维码图片（上传本地图片 / 填图片地址）**。
+
+| 方式 | 操作 | 说明 |
+| --- | --- | --- |
+| 上传本地图片 | 点字段右侧 **上传本地图片**，选择电脑上的二维码图片（jpg / png / webp） | 图片会被转成 **base64** 存进站点数据，不需要额外上传文件，随「发布到线上」一起提交，访客也能看到 |
+| 填写图片地址 | 在输入框里直接填路径或网址，如 `assets/img/qr.png`、`https://…/qr.png` | 适合图片已经放进仓库或托管在图床上的情况；输入框失焦后左侧会显示预览 |
+| 清除图片 | 点 **清除图片** | 清空后联系页恢复显示文字占位（即上面的「未设置二维码图片时的文字占位」，通常不用改） |
+
+注意事项：
+
+- **图片体积**：单张上限 500 KB，建议先压缩到 **300 KB 以内**（微信 / 支付宝导出的二维码通常只有几十 KB）。二维码图片会变成文本存在数据文件里，图片越大发布越慢、也越容易失败；超过上限时后台会拒绝并给出提示。
+- 格式建议用 **png**（清晰、体积小、支持透明）；如果二维码来自聊天工具截图，先裁剪掉多余留白再上传，扫码识别更稳。
+- 上传或清除后**务必点右上角「保存并生效」**，前台刷新（F5）即可看到效果。这一步只写本机，要让公网访客也看到，还需到 **🚀 发布到线上** 点「立即发布到线上」（二维码图片会跟着内容一起提交）。
+- 二维码卡片上方的标题与说明（「扫码添加专属客服」等）是另外两个字段，可按需一起修改。
+
+### 5. 注意事项
 
 - 内容保存在**本机浏览器**（`localStorage`，键名 `gb_site_v1`），**换电脑、换浏览器或清理浏览器数据后会回到默认内容**；重要内容请先「导出内容 JSON」备份。
 - 后台「服务管理」改起步价 / 上下架、「站点设置」改站点名称与客服信息，同样会**自动同步**到内容管理这份数据（打开内容管理时若检测到差异会提示「已同步…」），两处改任一处前台都会生效；但同一字段以**最近一次保存**为准。
@@ -157,6 +176,7 @@ output/
 - **检测线上连接** 按钮：随时检查 Token 权限、线上数据文件版本，并对比「本机内容」与「线上内容」是否一致；点发布时会自动再做一次校验。
 - 每次发布会生成一条提交记录，提交信息为「更新站点内容（后台发布 YYYY-MM-DD HH:MM:SS）」，可在页面底部点「查看提交记录」追溯。
 - 发布记录（时间 + commit 号）存在本机浏览器（键名 `gb_publish_meta`），仅用于在后台显示「上次发布」信息。
+- 发布提交的是**整份内容数据**，**后台上传的客服二维码图片（base64）也包含在内**，因此二维码无需单独上传到仓库即可让访客看到。图片越大数据文件越大（发布弹窗会显示「内容大小」），建议把二维码压缩到 300 KB 以内再上传。
 - 建议直接在**线上后台** `https://gu060125.github.io/gushou-esports/admin.html` 操作发布：Token 与内容数据都按浏览器站点归属保存，本机用 `file://` 打开的后台与线上后台的数据互不相通，两边需要分别粘贴一次 Token。
 
 ### 3. 为什么发布后所有人就都能看到
@@ -204,7 +224,7 @@ output/
 
 ### 3. 联系入口页 `contact.html`
 - 五种联系方式卡片（QQ / 微信 / 邮箱 / 热线 / 服务时间），支持一键复制
-- 客服二维码占位区
+- 客服二维码卡片：后台设置了二维码图片就展示真实二维码，未设置时显示文字占位（详见第三节「客服二维码图片怎么设置」）
 - 在线需求表单：必填校验（称呼、联系方式、游戏、服务类型）+ 段位目标、期望时间、预算、补充说明
 - 其他沟通渠道：加急通道、团队批量、打手入驻
 - 下单前确认 FAQ
@@ -223,6 +243,7 @@ output/
 本站为**纯静态演示站点**，没有任何后端服务：
 
 - 前台页面展示的全部内容（产业介绍、服务项目与价格、联系方式、页脚、FAQ 等）统一保存在浏览器 `localStorage`（键名 **`gb_site_v1`**），由 `assets/js/site-data.js` 提供默认值并负责渲染；后台「内容管理」读写的正是这一份数据，所以**后台改完、前台刷新即生效**。
+- 后台「客服二维码图片」上传的本地图片会以 **base64 字符串**存在这份数据里（字段 `contact.qrImage`），不产生额外文件；前台联系页读这个字段渲染二维码，为空时显示文字占位。
 - 联系页提交的表单会写入浏览器 `localStorage`（键名 `gb_orders`），随后可在「管理后台 → 订单管理」中查看、编辑与流转状态。
 - **线上已发布内容**保存在仓库的 `assets/data/site-data.json`，由后台「发布到线上」通过 GitHub API 提交。前台读取优先级为：**本机 `localStorage`（`gb_site_v1`）> 线上已发布数据 > 内置默认数据**。访客浏览器里没有本机数据，看到的就是线上已发布数据；本机清除浏览器数据后会退回显示线上已发布数据（详见第四节）。
 - GitHub Token 与发布记录分别保存在本机 `localStorage` 的 `gb_gh_token`、`gb_publish_meta`，可随时在后台「发布到线上」清除 Token；Token 不会出现在任何发布产物中。
@@ -240,5 +261,6 @@ output/
 ## 八、免责声明
 
 本站点为设计演示用途，全部业务数据、价格与联系方式均为虚构示例。真实运营游戏代练业务需遵守当地法律法规与游戏平台的用户协议，并注意未成年人保护与理性消费引导。
+*（内容由AI生成，仅供参考）*
 *（内容由AI生成，仅供参考）*
 *（内容由AI生成，仅供参考）*
