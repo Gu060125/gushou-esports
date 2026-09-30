@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>管理后台 | 顾手游电竞</title>
+<meta name="description" content="顾手游电竞管理后台演示：数据看板、订单管理、服务项目配置、站点设置。">
+<link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body class="admin-body">
+
+<!-- ============ 登录门 ============ -->
+<div class="admin-login" id="loginGate">
+  <div class="login-card">
+    <a class="logo" href="index.html">
+      <span class="logo-mark">顾</span>
+      <span>顾手游电竞<small>ADMIN CONSOLE</small></span>
+    </a>
+    <h2>管理后台登录</h2>
+    <p class="login-tip">请输入管理员账号与密码以进入控制台</p>
+
+    <div class="alert alert-error" id="loginError"></div>
+
+    <form id="loginForm" novalidate>
+      <div class="field" style="margin-bottom:14px">
+        <label for="lg-user">管理员账号</label>
+        <input type="text" id="lg-user" value="admin" autocomplete="username">
+      </div>
+      <div class="field" style="margin-bottom:18px">
+        <label for="lg-pass">登录密码</label>
+        <input type="password" id="lg-pass" placeholder="请输入密码" autocomplete="current-password">
+      </div>
+      <button class="btn btn-primary btn-block" type="submit">登 录</button>
+    </form>
+
+    <div class="login-hint">演示账号：<b>admin</b>　演示密码：<b>123456</b><br>本页为纯前端演示，无真实鉴权与服务端交互</div>
+    <p style="text-align:center;margin-top:16px;font-size:12.6px">
+      <a href="index.html" style="color:var(--muted)">← 返回网站首页</a>
+    </p>
+  </div>
+</div>
+
+<!-- ============ 后台主体 ============ -->
+<div class="admin-shell" id="adminShell">
+
+  <header class="admin-topbar">
+    <a class="logo" href="index.html">
+      <span class="logo-mark">顾</span>
+      <span>顾手游电竞<small>ADMIN CONSOLE</small></span>
+    </a>
+    <div class="admin-user">
+      <span id="nowText">—</span>
+      <span class="admin-avatar">管</span>
+      <span style="color:var(--text);font-weight:700">admin</span>
+      <button class="btn btn-ghost btn-sm" type="button" id="logoutBtn">退出登录</button>
+    </div>
+  </header>
+
+  <div class="admin-layout">
+    <!-- 侧栏 -->
+    <aside class="admin-side">
+      <a class="active" data-page="content">📝 内容管理</a>
+      <a data-page="dashboard">📊 数据看板</a>
+      <a data-page="orders">📋 订单管理</a>
+      <a data-page="services">🎮 服务管理</a>
+      <a data-page="messages">✉️ 客户留言</a>
+      <a data-page="settings">⚙️ 站点设置</a>
+    </aside>
+
+    <main class="admin-main">
+
+      <!-- ---------- 内容管理 ---------- -->
+      <section class="admin-page active" data-page="content">
+        <div class="admin-page-head">
+          <div>
+            <h2>内容管理</h2>
+            <p>修改官网前台展示的内容：产业介绍、服务项目与价格、联系方式、页脚信息等。保存后前台刷新即生效。</p>
+          </div>
+          <div class="toolbar">
+            <button class="btn btn-ghost btn-sm" type="button" id="ctExport">导出内容 JSON</button>
+            <button class="btn btn-ghost btn-sm" type="button" id="ctReset">恢复默认内容</button>
+            <button class="btn btn-primary btn-sm" type="button" id="ctSave">保存并生效</button>
+          </div>
+        </div>
+
+        <div class="ct-notice" id="ctNotice"></div>
+        <div class="ct-status" id="ctStatus"></div>
+
+        <div class="panel" style="margin-top:14px">
+          <div class="panel-head">
+            <h3>前台预览入口</h3>
+            <span class="panel-sub">保存后在新标签页打开即可看到效果</span>
+          </div>
+          <p class="ct-links" style="font-size:13.4px;line-height:2">
+            <a href="index.html" target="_blank" rel="noopener">首页</a>
+            <a href="services.html" target="_blank" rel="noopener">服务与价目</a>
+            <a href="contact.html" target="_blank" rel="noopener">联系下单</a>
+          </p>
+          <p style="font-size:12.6px;color:var(--muted);line-height:1.8">
+            提示：内容保存在本机浏览器的 localStorage（键名 gb_site_v1），与前台页面共用；换浏览器或清理浏览器数据后会回到默认内容，建议重要内容先「导出内容 JSON」备份。旧版「服务管理 / 站点设置」中的修改会自动同步到本页内容。
+          </p>
+        </div>
+
+        <div id="ctRoot" style="margin-top:16px"></div>
+      </section>
+
+      <!-- ---------- 数据看板 ---------- -->
+      <section class="admin-page" data-page="dashboard">
+        <div class="admin-page-head">
+          <div>
+            <h2>数据看板</h2>
+            <p>平台整体运营概览（示例数据，仅用于站点演示）。</p>
+          </div>
+          <button class="btn btn-ghost btn-sm" type="button" id="refreshBtn">刷新数据</button>
+        </div>
+
+        <div class="kpi-grid">
+          <div class="kpi">
+            <div class="kpi-label">今日订单</div>
+            <div class="kpi-value" id="kpiToday">0</div>
+            <div class="kpi-sub up">较昨日 +12.5%</div>
+          </div>
+          <div class="kpi">
+            <div class="kpi-label">订单总数</div>
+            <div class="kpi-value" id="kpiTotal">0</div>
+            <div class="kpi-sub">含全部状态订单</div>
+          </div>
+          <div class="kpi">
+            <div class="kpi-label">预估交易额</div>
+            <div class="kpi-value" id="kpiAmount">¥0</div>
+            <div class="kpi-sub up">较上周 +8.2%</div>
+          </div>
+          <div class="kpi">
+            <div class="kpi-label">进行中订单</div>
+            <div class="kpi-value" id="kpiDoing">0</div>
+            <div class="kpi-sub down" id="kpiDoingSub">待处理 0 单</div>
+          </div>
+        </div>
+
+        <div class="panel">
+          <div class="panel-head">
+            <h3>近 7 日订单趋势</h3>
+            <span class="panel-sub">单位：单</span>
+          </div>
+          <div class="bars" id="trendBars"></div>
+        </div>
+
+        <div class="grid grid-2">
+          <div class="panel" style="margin-bottom:0">
+            <div class="panel-head"><h3>服务项目占比</h3></div>
+            <div id="serviceShare"></div>
+          </div>
+          <div class="panel" style="margin-bottom:0">
+            <div class="panel-head"><h3>打手接单排行</h3><span class="panel-sub">TOP 5</span></div>
+            <div class="table-wrap" style="border:none">
+              <table style="min-width:auto">
+                <thead><tr><th>打手编号</th><th>擅长游戏</th><th>完成单量</th><th>好评率</th></tr></thead>
+                <tbody id="rankerBody"></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ---------- 订单管理 ---------- -->
+      <section class="admin-page" data-page="orders">
+        <div class="admin-page-head">
+          <div>
+            <h2>订单管理</h2>
+            <p>查看、筛选、修改官网上提交的需求订单（含本机 localStorage 中的真实表单提交记录）。</p>
+          </div>
+          <div class="toolbar">
+            <input type="text" id="orderSearch" placeholder="搜索单号 / 客户 / 联系方式">
+            <select id="orderStatusFilter">
+              <option value="">全部状态</option>
+              <option value="待处理">待处理</option>
+              <option value="进行中">进行中</option>
+              <option value="已完成">已完成</option>
+              <option value="已取消">已取消</option>
+            </select>
+            <button class="btn btn-ghost btn-sm" type="button" id="exportBtn">导出 JSON</button>
+            <button class="btn btn-primary btn-sm" type="button" id="newOrderBtn">新建订单</button>
+          </div>
+        </div>
+
+        <div class="panel">
+          <div class="panel-head">
+            <h3>订单列表</h3>
+            <span class="panel-sub" id="orderCountText">共 0 条</span>
+          </div>
+          <div class="table-wrap" style="border:none;background:transparent">
+            <table>
+              <thead>
+                <tr>
+                  <th>单号</th><th>客户</th><th>游戏 / 服务</th><th>段位目标</th>
+                  <th>金额</th><th>提交时间</th><th>状态</th><th>操作</th>
+                </tr>
+              </thead>
+              <tbody id="orderBody"></tbody>
+            </table>
+          </div>
+          <div class="empty" id="orderEmpty" style="display:none">
+            <div class="empty-icon">📭</div>
+            <div>没有符合条件的订单</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ---------- 服务管理 ---------- -->
+      <section class="admin-page" data-page="services">
+        <div class="admin-page-head">
+          <div>
+            <h2>服务管理</h2>
+            <p>配置官网展示的服务项目、起步价与上下架状态（演示数据，修改后保存在本机）。</p>
+          </div>
+          <button class="btn btn-ghost btn-sm" type="button" id="resetServicesBtn">恢复默认</button>
+        </div>
+
+        <div class="panel">
+          <div class="table-wrap" style="border:none;background:transparent">
+            <table>
+              <thead>
+                <tr><th>服务名称</th><th>起步价（元）</th><th>计价方式</th><th>已接单量</th><th>上架状态</th></tr>
+              </thead>
+              <tbody id="serviceBody"></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- ---------- 客户留言 ---------- -->
+      <section class="admin-page" data-page="messages">
+        <div class="admin-page-head">
+          <div>
+            <h2>客户留言</h2>
+            <p>来自官网「联系下单」页面的需求详情与补充说明。</p>
+          </div>
+        </div>
+        <div id="messageList"></div>
+        <div class="empty" id="messageEmpty" style="display:none">
+          <div class="empty-icon">💬</div>
+          <div>暂无客户留言</div>
+        </div>
+      </section>
+
+      <!-- ---------- 站点设置 ---------- -->
+      <section class="admin-page" data-page="settings">
+        <div class="admin-page-head">
+          <div>
+            <h2>站点设置</h2>
+            <p>维护官网基础信息与客服联系方式。</p>
+          </div>
+        </div>
+
+        <div class="panel">
+          <div class="panel-head"><h3>基础信息</h3></div>
+          <div class="form-grid">
+            <div class="field">
+              <label for="st-name">站点名称</label>
+              <input type="text" id="st-name" value="顾手游电竞">
+            </div>
+            <div class="field">
+              <label for="st-slogan">站点标语</label>
+              <input type="text" id="st-slogan" value="实名打手 · 进度可视 · 封号包赔">
+            </div>
+            <div class="field">
+              <label for="st-qq">客服 QQ</label>
+              <input type="text" id="st-qq" value="800-123-456">
+            </div>
+            <div class="field">
+              <label for="st-wechat">客服微信</label>
+              <input type="text" id="st-wechat" value="Gushou_CS">
+            </div>
+            <div class="field">
+              <label for="st-mail">商务邮箱</label>
+              <input type="text" id="st-mail" value="service@gushou.demo">
+            </div>
+            <div class="field">
+              <label for="st-phone">客服热线</label>
+              <input type="text" id="st-phone" value="400-000-1234">
+            </div>
+          </div>
+        </div>
+
+        <div class="panel">
+          <div class="panel-head"><h3>功能开关</h3></div>
+          <div style="display:grid;gap:16px">
+            <label style="display:flex;align-items:center;justify-content:space-between;gap:14px">
+              <span><b style="display:block;font-size:14.5px">开启在线下单入口</b><span style="color:var(--muted);font-size:13px">关闭后联系页将隐藏需求表单</span></span>
+              <span class="switch"><input type="checkbox" checked><span class="slider"></span></span>
+            </label>
+            <label style="display:flex;align-items:center;justify-content:space-between;gap:14px">
+              <span><b style="display:block;font-size:14.5px">开启加急通道</b><span style="color:var(--muted);font-size:13px">允许用户选择 24 小时内加急服务</span></span>
+              <span class="switch"><input type="checkbox" id="sw-urgent" checked><span class="slider"></span></span>
+            </label>
+            <label style="display:flex;align-items:center;justify-content:space-between;gap:14px">
+              <span><b style="display:block;font-size:14.5px">订单自动派单</b><span style="color:var(--muted);font-size:13px">新订单自动匹配空闲认证打手</span></span>
+              <span class="switch"><input type="checkbox" id="sw-auto"><span class="slider"></span></span>
+            </label>
+            <label style="display:flex;align-items:center;justify-content:space-between;gap:14px">
+              <span><b style="display:block;font-size:14.5px">维护模式</b><span style="color:var(--muted);font-size:13px">开启后官网仅展示公告页</span></span>
+              <span class="switch"><input type="checkbox" id="sw-maintain"><span class="slider"></span></span>
+            </label>
+          </div>
+        </div>
+
+        <div class="panel">
+          <div class="panel-head"><h3>数据管理</h3></div>
+          <p style="color:var(--muted);font-size:13.6px;margin-bottom:16px">
+            后台数据全部保存在本机浏览器 localStorage 中，不会上传服务器。可导出备份或在演示后清空。
+          </p>
+          <div class="toolbar">
+            <button class="btn btn-ghost btn-sm" type="button" id="settingsExport">导出全部数据</button>
+            <button class="btn btn-ghost btn-sm" type="button" id="settingsClearOrders">清空订单数据</button>
+          </div>
+        </div>
+      </section>
+
+    </main>
+  </div>
+</div>
+
+<!-- ---------- 订单详情 / 编辑 模态框 ---------- -->
+<div class="modal-mask" id="orderModal">
+  <div class="modal">
+    <div class="modal-head">
+      <h3 id="modalTitle">订单详情</h3>
+      <button class="modal-close" type="button" id="modalClose">×</button>
+    </div>
+    <div id="modalBody"></div>
+    <div class="modal-foot">
+      <button class="btn btn-ghost btn-sm" type="button" id="modalCancel">关闭</button>
+      <button class="btn btn-primary btn-sm" type="button" id="modalSave">保存修改</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast-wrap"></div>
+<script src="assets/js/site-data.js"></script>
+<script src="assets/js/admin.js"></script>
+<script src="assets/js/admin-content.js"></script>
+</body>
+</html>

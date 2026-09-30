@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>联系下单 | 顾手游电竞</title>
+<meta name="description" content="联系顾手游电竞：客服 QQ、微信、邮箱、热线，7×24 小时在线，或在线提交需求单，18 分钟内获取报价。">
+<link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+
+<!-- ================= 顶部导航 ================= -->
+<header class="site-header">
+  <div class="container nav-wrap">
+    <a class="logo" href="index.html">
+      <span class="logo-mark">顾</span>
+      <span><span data-gb-text="brand.name">顾手游电竞</span><small data-gb-text="brand.short">GU ESPORTS</small></span>
+    </a>
+
+    <nav class="nav-links">
+      <a href="index.html">首页</a>
+      <a href="services.html">服务项目</a>
+      <a href="contact.html" class="active">联系下单</a>
+      <a href="admin.html">管理后台</a>
+    </nav>
+
+    <div class="nav-actions">
+      <a class="btn btn-ghost btn-sm" href="services.html">价目表</a>
+      <a class="btn btn-primary btn-sm" href="#orderForm">提交需求</a>
+    </div>
+
+    <button class="nav-toggle" aria-label="菜单">☰</button>
+  </div>
+</header>
+
+<main>
+
+  <!-- ================= 页头 ================= -->
+  <section class="page-head">
+    <div class="container">
+      <span class="eyebrow" data-gb-text="contactPage.eyebrow">CONTACT US</span>
+      <h1 data-gb-text="contactPage.title">联系入口与在线下单</h1>
+      <p data-gb-text="contactPage.desc">选择你最方便的渠道联系我们，或直接填写下方需求表单。</p>
+    </div>
+  </section>
+
+  <!-- ================= 联系方式 + 表单 ================= -->
+  <section class="section">
+    <div class="container grid grid-2" style="align-items:start">
+
+      <div>
+        <h2 class="section-title" style="font-size:23px" data-gb-text="contact.title">联系方式</h2>
+        <p class="section-desc" style="margin-bottom:22px" data-gb-text="contact.desc">点右侧按钮可一键复制账号信息。</p>
+
+        <div data-gb-list="contact.items" data-gb-tpl="contactItem"></div>
+
+        <div class="qr-box" style="margin-top:22px">
+          <div class="qr-placeholder" data-gb-text="contact.qrNote">客服微信二维码（演示占位）</div>
+          <b data-gb-text="contact.qrTitle">扫码添加专属客服</b>
+          <span data-gb-text="contact.qrDesc">添加后可获取实时报价与进度查询</span>
+        </div>
+      </div>
+
+      <div class="panel" style="margin:0">
+        <div class="panel-head">
+          <div>
+            <h3 data-gb-text="contact.formTitle">在线提交需求</h3>
+            <span class="panel-sub" data-gb-text="contact.formDesc">填写以下信息提交后，你的需求单会进入后台订单列表。</span>
+          </div>
+        </div>
+
+        <div class="alert alert-success" id="formSuccess"></div>
+        <div class="alert alert-error" id="formError"></div>
+
+        <form id="orderForm" novalidate>
+          <div class="form-grid">
+            <div class="field">
+              <label for="f-name">称呼 <span class="req">*</span></label>
+              <input type="text" id="f-name" placeholder="怎么称呼你" autocomplete="off">
+              <span class="err-msg">请填写称呼</span>
+            </div>
+
+            <div class="field">
+              <label for="f-contact">联系方式 <span class="req">*</span></label>
+              <input type="text" id="f-contact" placeholder="QQ / 微信 / 手机号" autocomplete="off">
+              <span class="err-msg">请填写联系方式</span>
+            </div>
+
+            <div class="field">
+              <label for="f-game">游戏 <span class="req">*</span></label>
+              <select id="f-game" data-gb-options="games" data-gb-placeholder="请选择游戏">
+                <option value="">请选择游戏</option>
+              </select>
+              <span class="err-msg">请选择游戏</span>
+            </div>
+
+            <div class="field">
+              <label for="f-service">服务类型 <span class="req">*</span></label>
+              <select id="f-service" data-gb-options="services" data-gb-placeholder="请选择服务类型">
+                <option value="">请选择服务类型</option>
+              </select>
+              <span class="err-msg">请选择服务类型</span>
+            </div>
+
+            <div class="field">
+              <label for="f-from">当前段位</label>
+              <input type="text" id="f-from" placeholder="例：黄金 II 60 胜点" autocomplete="off">
+            </div>
+
+            <div class="field">
+              <label for="f-to">目标段位</label>
+              <input type="text" id="f-to" placeholder="例：铂金 IV" autocomplete="off">
+            </div>
+
+            <div class="field">
+              <label for="f-deadline">期望完成时间</label>
+              <input type="date" id="f-deadline">
+            </div>
+
+            <div class="field">
+              <label for="f-budget">预算区间</label>
+              <select id="f-budget">
+                <option value="">不限 / 待客服评估</option>
+                <option value="200 元以内">200 元以内</option>
+                <option value="200 - 500 元">200 - 500 元</option>
+                <option value="500 - 1000 元">500 - 1000 元</option>
+                <option value="1000 元以上">1000 元以上</option>
+              </select>
+            </div>
+
+            <div class="field full">
+              <label for="f-note">补充说明</label>
+              <textarea id="f-note" placeholder="例如：只玩指定英雄、希望晚间时段进行、需要隐藏战绩等"></textarea>
+            </div>
+          </div>
+
+          <p class="form-note" data-gb-text="contact.formNote">提交即表示你已阅读并同意服务条款；本站为演示站点，不会真实发送或上传任何数据。</p>
+
+          <div class="hero-cta" style="margin:18px 0 0">
+            <button class="btn btn-primary" type="submit">提交需求单</button>
+            <button class="btn btn-ghost" type="reset">清空</button>
+          </div>
+        </form>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ================= 其他沟通渠道 ================= -->
+  <section class="section section-alt">
+    <div class="container">
+      <div class="section-head">
+        <span class="eyebrow" data-gb-text="contact.channelsEyebrow">OTHER CHANNELS</span>
+        <h2 class="section-title" data-gb-text="contact.channelsTitle">其他沟通渠道</h2>
+        <p class="section-desc" data-gb-text="contact.channelsDesc">根据不同需求场景，选择最合适的对接方式。</p>
+      </div>
+      <div class="grid grid-3" data-gb-list="contact.channels" data-gb-tpl="channel"></div>
+    </div>
+  </section>
+
+  <!-- ================= 下单前请确认 ================= -->
+  <section class="section">
+    <div class="container">
+      <div class="section-head">
+        <span class="eyebrow" data-gb-text="contact.faqEyebrow">BEFORE YOU ORDER</span>
+        <h2 class="section-title" data-gb-text="contact.faqTitle">下单前请确认</h2>
+      </div>
+      <div style="max-width:820px;margin:0 auto" data-gb-faq="faq.contact"></div>
+    </div>
+  </section>
+
+</main>
+
+<!-- ================= 页脚 ================= -->
+<footer class="site-footer">
+  <div class="container footer-grid">
+    <div>
+      <a class="logo" href="index.html">
+        <span class="logo-mark">顾</span>
+        <span><span data-gb-text="brand.name">顾手游电竞</span><small data-gb-text="brand.short">GU ESPORTS</small></span>
+      </a>
+      <p class="footer-desc" data-gb-text="brand.footerDesc">专业游戏段位代练与陪玩服务平台，实名打手、进度可视、封号包赔。</p>
+      <p class="footer-slogan" data-gb-text="brand.slogan">实名打手 · 进度可视 · 封号包赔</p>
+    </div>
+
+    <div>
+      <h4>站内导航</h4>
+      <div class="footer-links" data-gb-list="footer.nav" data-gb-tpl="footerNav"></div>
+    </div>
+
+    <div>
+      <h4>热门服务</h4>
+      <div class="footer-links" data-gb-list="footer.services" data-gb-tpl="footerPlain"></div>
+    </div>
+
+    <div>
+      <h4>联系方式</h4>
+      <div class="footer-links" data-gb-list="footer.contactLines" data-gb-tpl="footerPlain"></div>
+    </div>
+  </div>
+
+  <div class="container footer-bottom">
+    <span data-gb-text="footer.copyright">© 2026 顾手游电竞 · 本站为静态演示站点</span>
+    <span data-gb-text="footer.tip">理性游戏 · 适度消费 · 未成年人禁止下单</span>
+  </div>
+</footer>
+
+<button class="to-top" aria-label="返回顶部">↑</button>
+
+<script src="assets/js/site-data.js"></script>
+<script src="assets/js/main.js"></script>
+<script src="assets/js/order-form.js"></script>
+</body>
+</html>
