@@ -212,9 +212,10 @@
       fields: [
         f("contact.title", "联系方式区块标题", "text"),
         area("contact.desc", "联系方式区块说明"),
+        f("contact.qrImage", "客服二维码图片（上传本地图片 / 填图片地址）", "image"),
         f("contact.qrTitle", "二维码卡片标题", "text"),
         f("contact.qrDesc", "二维码卡片说明", "text"),
-        area("contact.qrNote", "二维码占位文字"),
+        area("contact.qrNote", "未设置二维码图片时的文字占位"),
         f("contact.channelsEyebrow", "渠道区小标题", "text"),
         f("contact.channelsTitle", "渠道区标题", "text"),
         area("contact.channelsDesc", "渠道区说明")
@@ -259,7 +260,18 @@
     ".ct-notice{font-size:13px;line-height:1.75;border-left:3px solid var(--line-strong);padding:10px 14px;border-radius:8px;background:rgba(255,255,255,.03);margin-bottom:14px;color:var(--muted)}",
     ".ct-notice.warn{border-left-color:#ffcf6b;color:#ffd98a}",
     ".ct-toolbar{display:flex;flex-wrap:wrap;gap:10px;align-items:center}",
-    ".ct-empty{color:var(--muted);font-size:13.2px;padding:6px 0 12px}"
+    ".ct-empty{color:var(--muted);font-size:13.2px;padding:6px 0 12px}",
+    ".img-field{display:flex;gap:16px;align-items:flex-start;flex-wrap:wrap}",
+    ".img-prev{width:128px;height:128px;flex:0 0 auto;border:1px dashed var(--line-strong);border-radius:12px;display:flex;align-items:center;justify-content:center;overflow:hidden;background:rgba(255,255,255,.04)}",
+    ".img-prev img{width:100%;height:100%;object-fit:contain;display:block}",
+    ".img-prev .img-empty{color:var(--muted);font-size:12px;text-align:center;padding:0 10px;line-height:1.6}",
+    ".img-ops{flex:1 1 320px;min-width:260px;display:flex;flex-direction:column;gap:9px}",
+    ".img-ops input[type=text]{width:100%}",
+    ".img-btns{display:flex;gap:10px;flex-wrap:wrap}",
+    ".img-pick{position:relative;display:inline-flex;align-items:center;justify-content:center;cursor:pointer;margin:0;overflow:hidden}",
+    ".img-pick input[type=file]{position:absolute;width:1px;height:1px;opacity:0;overflow:hidden}",
+    ".img-tip{font-size:12.2px;color:var(--muted);line-height:1.75}",
+    ".img-tip code{font-size:12px}"
   ].join("\n");
 
   /* ---------------- 运行时状态 ---------------- */
@@ -291,6 +303,24 @@
           ">" + S.esc(op.t) + "</option>";
       }).join("") + "</select>";
     }
+    if (type === "image") {
+      var src = (typeof val === "string") ? val.trim() : "";
+      return '<div class="img-field" data-imgfield="' + S.esc(path) + '">' +
+        '<div class="img-prev">' + imgPreviewHTML(src) + "</div>" +
+        '<div class="img-ops">' +
+          '<input type="text"' + attr(path, "text") + ' value="' + S.esc(src) +
+          '" placeholder="图片地址（也可用右侧按钮上传本地图片）">' +
+          '<div class="img-btns">' +
+            '<label class="btn btn-ghost btn-sm img-pick">上传本地图片' +
+              '<input type="file" accept="image/*" data-imgup="' + S.esc(path) + '"></label>' +
+            '<button type="button" class="btn btn-ghost btn-sm img-clear" data-imgclear="' + S.esc(path) +
+              '">清除图片</button>' +
+          "</div>" +
+          '<div class="img-tip">上传的本地图片会转成 base64 保存在站点数据里（随「发布到线上」一起提交，访客可见）；' +
+          "建议先压缩到 300 KB 以内，单张上限 500 KB。也可以直接填写图片地址，如 " +
+          "<code>assets/img/qr.png</code> 或 <code>https://…</code>。留空则前台显示上面的文字占位。</div>" +
+        "</div></div>";
+    }
     if (type === "area" || type === "html" || type === "lines") {
       var rows = type === "html" ? 4 : (type === "lines" ? 4 : 3);
       return "<textarea rows=\"" + rows + "\"" + attr(path, type) + ">" + S.esc(val) + "</textarea>";
@@ -298,12 +328,18 @@
     return '<input type="text"' + attr(path, "text") + ' value="' + S.esc(val) + '">';
   }
 
+  function imgPreviewHTML(src) {
+    return src
+      ? '<img src="' + S.esc(src) + '" alt="图片预览">'
+      : '<span class="img-empty">尚未设置图片</span>';
+  }
+
   function fieldHTML(o, path) {
     var type = o.t || "text";
     var val = S.getPath(draft, path);
     if (type === "lines") val = Array.isArray(val) ? val.join("\n") : (val || "");
     if (type === "bool") val = val !== false;
-    var full = (type === "area" || type === "html" || type === "lines" || type === "bool");
+    var full = (type === "area" || type === "html" || type === "lines" || type === "bool" || type === "image");
     return '<div class="field' + (full ? " full" : "") + '"><label>' + S.esc(o.l) + "</label>" +
       controlHTML(path, o, val, type, o.o && o.o.cast) + "</div>";
   }
@@ -423,13 +459,23 @@
   /* ---------------- 事件 ---------------- */
   function onInput(e) {
     var t = e.target;
-    var path = t.getAttribute && t.getAttribute("data-path");
+    if (!t || !t.getAttribute) return;
+
+    /* 图片字段：选择本地图片后读取为 base64 写入数据 */
+    var upPath = t.getAttribute("data-imgup");
+    if (upPath) { handleImgUpload(t, upPath); return; }
+
+    var path = t.getAttribute("data-path");
     if (!path) return;
     var type = t.getAttribute("data-type");
     var cast = t.getAttribute("data-cast");
     var raw = (type === "bool") ? t.checked : t.value;
     setVal(path, raw, type, cast);
     markDirty();
+
+    /* 图片字段的文字输入：失焦（change）后再刷新预览，避免边打字边反复加载图片 */
+    var imgBox = t.closest ? t.closest(".img-field") : null;
+    if (imgBox && e.type === "change") refreshImgField(imgBox.getAttribute("data-imgfield"));
 
     if (type === "text" || type === "select") {
       // 同步列表条目标题与条数
@@ -448,6 +494,49 @@
       }
       refreshCounts();
     }
+  }
+
+  /* ---------------- 图片字段（上传本地图片 → base64） ---------------- */
+  var MAX_IMG_SIZE = 500 * 1024; /* 单张图片上限 500 KB */
+
+  function handleImgUpload(input, path) {
+    var file = input.files && input.files[0];
+    input.value = ""; /* 允许连续选择同一张图片 */
+    if (!file) return;
+    if (!/^image\//.test(file.type)) {
+      toast("请选择图片文件（jpg / png / webp 等）", "err");
+      return;
+    }
+    if (file.size > MAX_IMG_SIZE) {
+      toast("图片约 " + Math.round(file.size / 1024) + " KB，超过 500 KB 上限。请先压缩图片（建议 300 KB 以内）再上传，否则发布的数据文件会过大。", "err");
+      return;
+    }
+    var fr = new FileReader();
+    fr.onload = function () {
+      setVal(path, String(fr.result), "text");
+      markDirty();
+      refreshImgField(path);
+      toast("已读取本地图片（" + Math.round(file.size / 1024) + " KB），点「保存并生效」后前台刷新即显示", "ok");
+      var kb = Math.round(JSON.stringify(draft).length / 1024);
+      if (kb > 900) toast("提示：当前站点数据约 " + kb + " KB，数据文件偏大可能发布失败，建议压缩二维码图片后再发布。", "err");
+    };
+    fr.onerror = function () { toast("图片读取失败，请换一张图片重试", "err"); };
+    fr.readAsDataURL(file);
+  }
+
+  function refreshImgField(path) {
+    if (!root || !path) return;
+    var box = null;
+    root.querySelectorAll("[data-imgfield]").forEach(function (el) {
+      if (el.getAttribute("data-imgfield") === path) box = el;
+    });
+    if (!box) return;
+    var v = S.getPath(draft, path);
+    var src = (typeof v === "string") ? v.trim() : "";
+    var prev = box.querySelector(".img-prev");
+    if (prev) prev.innerHTML = imgPreviewHTML(src);
+    var txt = box.querySelector('input[type="text"][data-path]');
+    if (txt && txt.value !== src) txt.value = src;
   }
 
   function refreshCounts() {
@@ -470,6 +559,14 @@
         markDirty();
         return;
       }
+    }
+
+    if (t.classList && t.classList.contains("img-clear")) {
+      var clearPath = t.getAttribute("data-imgclear");
+      setVal(clearPath, "", "text");
+      markDirty();
+      refreshImgField(clearPath);
+      return;
     }
 
     if (t.classList && t.classList.contains("ct-del")) {

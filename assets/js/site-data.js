@@ -254,6 +254,7 @@
         { icon: "☎️", label: "客服热线", value: "400-000-1234", note: "夜间时段请优先使用在线客服", copy: true },
         { icon: "🕐", label: "服务时间", value: "在线客服 7×24 小时值守", note: "派单与打手排期以客服确认为准", copy: false }
       ],
+      qrImage: "",
       qrTitle: "扫码添加专属客服",
       qrDesc: "添加后可获取实时报价与进度查询",
       qrNote: "客服微信二维码（演示占位，此处放置实际二维码图片）",
@@ -650,6 +651,32 @@
     });
   }
 
+  /* 客服二维码：后台设置了图片（上传本地图片转 base64，或直接填图片地址）就渲染真实二维码；
+     没有设置（空字符串）时回落到文字占位提示，不显示破图。 */
+  function renderQr(data) {
+    document.querySelectorAll("[data-gb-qr]").forEach(function (box) {
+      var src = getPath(data, box.getAttribute("data-gb-qr"));
+      var img = box.querySelector(".qr-img");
+      var ph = box.querySelector(".qr-placeholder");
+      if (!img) return;
+      var ok = (typeof src === "string") && src.replace(/\s+/g, "") !== "";
+      if (ok) {
+        img.setAttribute("src", src.trim());
+        img.setAttribute("alt", (getPath(data, "contact.qrTitle") || "客服二维码"));
+        img.removeAttribute("hidden");
+        box.classList.add("has-qr");
+      } else {
+        img.removeAttribute("src");
+        img.setAttribute("hidden", "hidden");
+        box.classList.remove("has-qr");
+      }
+      if (ph) {
+        if (ok) ph.setAttribute("hidden", "hidden");
+        else ph.removeAttribute("hidden");
+      }
+    });
+  }
+
   function render() {
     var data = get();
     renderText(data);
@@ -659,6 +686,7 @@
     renderFaqs(data);
     renderOptions(data);
     renderAttrs(data);
+    renderQr(data);
     return data;
   }
 
