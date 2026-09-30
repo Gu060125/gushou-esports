@@ -373,6 +373,15 @@
     return { data: out, changed: flag.changed };
   }
 
+  /* ---------------- 线上已发布数据（后台「发布到线上」提交的数据文件） ----------------
+     数据优先级：本机 localStorage(gb_site_v1) > 线上已发布数据 > 内置默认数据(DEFAULTS)
+     · 访客（浏览器里没有本机数据）看到的就是「线上已发布数据」；
+     · 站长在本机改完内容后，用后台「发布到线上」把数据提交到 GitHub 仓库，触发 Pages 重建；
+     · 本地用 file:// 双击打开时浏览器不允许读取该文件，会自动回落到本机数据 / 默认数据。 */
+  var REMOTE_URL = "assets/data/site-data.json";
+  var remote = null;         /* 线上数据缓存（读取成功后生效） */
+  var remoteState = "idle";  /* idle | loading | loaded | missing | error */
+
   /* ---------------- 读写 ---------------- */
   function readRaw() {
     try {
@@ -382,13 +391,65 @@
     } catch (e) { return null; }
   }
 
+  /* 数据骨架 = 内置默认数据 + 线上已发布数据（线上数据存在时覆盖同名字段） */
+  function baseData() {
+    if (!remote) return clone(DEFAULTS);
+    return migrateBrand(merge(DEFAULTS, remote)).data;
+  }
+
   function get() {
     var stored = readRaw();
-    if (!stored) return clone(DEFAULTS);
-    var data = migrateBrand(merge(DEFAULTS, stored));
+    var base = baseData();
+    if (!stored) return base;
+    var data = migrateBrand(merge(base, stored));
     /* 迁移结果立即落盘，保证前台、后台读到的都是新品牌名 */
     if (data.changed) save(data.data);
     return data.data;
+  }
+
+  /* ---------------- 线上数据读取 ---------------- */
+  function loadRemote() {
+    if (typeof fetch !== "function") { remoteState = "error"; return Promise.resolve(null); }
+    remoteState = "loading";
+    /* 加时间戳参数，避开 GitHub Pages 的 CDN 缓存，确保拿到刚发布的最新版本 */
+    return fetch(REMOTE_URL + "?v=" + Date.now(), { cache: "no-store" })
+      .then(function (res) {
+        if (!res.ok) { remoteState = (res.status === 404) ? "missing" : "error"; return null; }
+        return res.json();
+      })
+      .then(function (json) {
+        if (json && typeof json === "object" && !Array.isArray(json)) {
+          remote = json;
+          remoteState = "loaded";
+        } else if (remoteState === "loading") {
+          remoteState = "error";
+        }
+        return remote;
+      })
+      .catch(function () { remoteState = "error"; return null; });
+  }
+
+  function getRemote() { return remote ? clone(remote) : null; }
+
+  function setRemote(data) {
+    remote = (data && typeof data === "object" && !Array.isArray(data)) ? clone(data) : null;
+    remoteState = remote ? "loaded" : "idle";
+  }
+
+  /* 由后台直接标记线上数据状态（missing=仓库里还没有数据文件，error=读取失败） */
+  function setRemoteState(state) {
+    if (state === "missing" || state === "error") {
+      remote = null;
+      remoteState = state;
+    }
+    return remoteState;
+  }
+
+  function remoteStatus() { return remoteState; }
+
+  function emitRemoteLoaded() {
+    try { document.dispatchEvent(new CustomEvent("gb:remote-loaded")); }
+    catch (e) { /* 老浏览器忽略 */ }
   }
 
   function save(data) {
@@ -604,6 +665,7 @@
   /* ---------------- 对外接口 ---------------- */
   window.GBSite = {
     KEY: KEY,
+    REMOTE_URL: REMOTE_URL,
     DEFAULTS: DEFAULTS,
     get: get,
     save: save,
@@ -616,8 +678,22 @@
     nl2br: nl2br,
     isCustomized: isCustomized,
     brandText: fixText,
-    render: render
+    render: render,
+    loadRemote: loadRemote,
+    getRemote: getRemote,
+    setRemote: setRemote,
+    setRemoteState: setRemoteState,
+    remoteStatus: remoteStatus,
+    baseData: baseData
   };
 
-  document.addEventListener("DOMContentLoaded", function () { render(); });
+  document.addEventListener("DOMContentLoaded", function () {
+    /* 先用本机数据渲染一次（保证秒开），再异步读取线上已发布数据，读到后重渲染 */
+    render();
+    loadRemote().then(function (data) {
+      if (!data) return;
+      render();
+      emitRemoteLoaded();
+    });
+  });
 })();

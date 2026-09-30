@@ -738,6 +738,17 @@
     });
 
     setInterval(tickLegacy, 1500);
+
+    /* 线上已发布数据是异步读到的：到达后如果没有未保存的修改，就用
+       「默认数据 + 线上数据 + 本机数据」重新装载草稿，避免草稿停留在
+       内置默认内容，导致后续保存 / 发布把线上已发布的内容覆盖掉。 */
+    document.addEventListener("gb:remote-loaded", function () {
+      if (dirty) return;
+      draft = S.get();
+      render();
+      updateStatus();
+      lastSig = legacySig();
+    });
   }
 
   document.addEventListener("DOMContentLoaded", init);

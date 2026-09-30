@@ -29,30 +29,29 @@
     });
   }
 
-  /* ---------- FAQ 折叠 ---------- */
+  /* ---------- FAQ 折叠 ----------
+     用事件委托绑定：线上已发布数据异步加载后会重新渲染列表，委托绑定不受影响 */
   function initFaq() {
-    document.querySelectorAll(".faq-q").forEach(function (q) {
-      q.addEventListener("click", function () {
-        var item = q.closest(".faq-item");
-        if (!item) return;
-        item.classList.toggle("open");
-      });
+    document.addEventListener("click", function (e) {
+      var q = e.target && e.target.closest ? e.target.closest(".faq-q") : null;
+      if (!q) return;
+      var item = q.closest(".faq-item");
+      if (item) item.classList.toggle("open");
     });
   }
 
-  /* ---------- 通用标签切换 [data-tabs] ---------- */
+  /* ---------- 通用标签切换 [data-tabs]（事件委托） ---------- */
   function initTabs() {
-    document.querySelectorAll("[data-tabs]").forEach(function (root) {
+    document.addEventListener("click", function (e) {
+      var tab = e.target && e.target.closest ? e.target.closest(".tab") : null;
+      if (!tab || !tab.getAttribute || !tab.getAttribute("data-tab")) return;
+      var root = tab.closest("[data-tabs]");
+      if (!root) return;
       var tabs = root.querySelectorAll(".tab");
       var panels = root.querySelectorAll(".tab-panel");
-      tabs.forEach(function (tab) {
-        tab.addEventListener("click", function () {
-          var key = tab.getAttribute("data-tab");
-          tabs.forEach(function (t) { t.classList.toggle("active", t === tab); });
-          panels.forEach(function (p) {
-            p.classList.toggle("active", p.getAttribute("data-panel") === key);
-          });
-        });
+      tabs.forEach(function (t) { t.classList.toggle("active", t === tab); });
+      panels.forEach(function (p) {
+        p.classList.toggle("active", p.getAttribute("data-panel") === tab.getAttribute("data-tab"));
       });
     });
   }
@@ -78,18 +77,18 @@
   }
   window.GB_toast = toast;
 
-  /* ---------- 复制到剪贴板 ---------- */
+  /* ---------- 复制到剪贴板（事件委托） ---------- */
   function initCopy() {
-    document.querySelectorAll("[data-copy]").forEach(function (btn) {
-      btn.addEventListener("click", function () {
-        var text = btn.getAttribute("data-copy");
-        var done = function () { toast("已复制：" + text, "ok"); };
-        if (navigator.clipboard && navigator.clipboard.writeText) {
-          navigator.clipboard.writeText(text).then(done).catch(function () { fallbackCopy(text, done); });
-        } else {
-          fallbackCopy(text, done);
-        }
-      });
+    document.addEventListener("click", function (e) {
+      var btn = e.target && e.target.closest ? e.target.closest("[data-copy]") : null;
+      if (!btn) return;
+      var text = btn.getAttribute("data-copy");
+      var done = function () { toast("已复制：" + text, "ok"); };
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text).then(done).catch(function () { fallbackCopy(text, done); });
+      } else {
+        fallbackCopy(text, done);
+      }
     });
   }
 
