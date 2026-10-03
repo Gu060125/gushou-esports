@@ -2,12 +2,25 @@
 AIGC:
     Label: "1"
     ContentProducer: 001191440300708461136T1XGW3
-    ProduceID: 53f0fb4c9d448255aedbd8eafdbed98e_67fb188cbc8011f1a526525400cd780f
-    ReservedCode1: 5x+NZcD0NXcxtRh4TuNGHI+3a/ul4rBBlNBQ3R6m2g2n8JStA4yPtO5oQ2iRnBrUfoD1YG1SLfFfabHOvRdrf7UnWAdrTJ5nIaBgry4uB1J9gGVsAvzXgg7uZ6e8Tseq3Cer9s2dEWodyUaaf3A06ldV/jYadlJkcDQc1NwhwyT0vXoFbLUf9ateSDE=
+    ProduceID: 53f0fb4c9d448255aedbd8eafdbed98e_db27ad38bcde11f18442525400de85a5
+    ReservedCode1: z/XbpZn+o90GcS6XbBJ0fGgfV8nD8M3vTZlklG3DrEmcJ6I4IX6Ep8+03D4PxyY7l3qWT38WpqijPV2rIG80RylnCWa5nEDdNBlZ/tHJdjIMYwmMBD+MCusQoTksC2sOwX2FwYiTRxEpOJPusr1nkWcAQAaucmYrg5M+pNzR2ro+2MtlOsJGikfQ190=
     ContentPropagator: 001191440300708461136T1XGW3
-    PropagateID: 53f0fb4c9d448255aedbd8eafdbed98e_67fb188cbc8011f1a526525400cd780f
-    ReservedCode2: 5x+NZcD0NXcxtRh4TuNGHI+3a/ul4rBBlNBQ3R6m2g2n8JStA4yPtO5oQ2iRnBrUfoD1YG1SLfFfabHOvRdrf7UnWAdrTJ5nIaBgry4uB1J9gGVsAvzXgg7uZ6e8Tseq3Cer9s2dEWodyUaaf3A06ldV/jYadlJkcDQc1NwhwyT0vXoFbLUf9ateSDE=
+    PropagateID: 53f0fb4c9d448255aedbd8eafdbed98e_db27ad38bcde11f18442525400de85a5
+    ReservedCode2: z/XbpZn+o90GcS6XbBJ0fGgfV8nD8M3vTZlklG3DrEmcJ6I4IX6Ep8+03D4PxyY7l3qWT38WpqijPV2rIG80RylnCWa5nEDdNBlZ/tHJdjIMYwmMBD+MCusQoTksC2sOwX2FwYiTRxEpOJPusr1nkWcAQAaucmYrg5M+pNzR2ro+2MtlOsJGikfQ190=
 ---
+
+---
+AIGC:
+    Label: "1"
+    ContentProducer: 001191440300708461136T1XGW3
+    ProduceID: 53f0fb4c9d448255aedbd8eafdbed98e_8b4e5d8bbc8b11f1a526525400cd780f
+    ReservedCode1: 0OWrnC3FFW0wL9RoKYJyw4Yno9MCe1ZVyDr4AY+lh9ooc7CNL28WjrHg1B+JwafOtr7fCEifIbO1yDTUAebfsbhvkScAcyM7CkLPrDWH2Z7iSSWMmfUHQFc+SfCNdxWIUm8Pfb/wPnlyelmu0KQ7vgL1cbRDTG2Xc3ARl0JS8cMDpo1yYqn6s2lNdy4=
+    ContentPropagator: 001191440300708461136T1XGW3
+    PropagateID: 53f0fb4c9d448255aedbd8eafdbed98e_8b4e5d8bbc8b11f1a526525400cd780f
+    ReservedCode2: 0OWrnC3FFW0wL9RoKYJyw4Yno9MCe1ZVyDr4AY+lh9ooc7CNL28WjrHg1B+JwafOtr7fCEifIbO1yDTUAebfsbhvkScAcyM7CkLPrDWH2Z7iSSWMmfUHQFc+SfCNdxWIUm8Pfb/wPnlyelmu0KQ7vgL1cbRDTG2Xc3ARl0JS8cMDpo1yYqn6s2lNdy4=
+---
+
+
 
 
 
@@ -15,7 +28,7 @@ AIGC:
 
 # 顾手游电竞 · 游戏代练业务网站（静态站点）
 
-一套可直接用浏览器打开预览的游戏代练业务站静态站点，包含**产业介绍首页**、**服务项目页**、**联系入口页**与**管理后台**四个页面。
+一套可直接用浏览器打开预览的游戏代练业务站静态站点，包含**产业介绍首页**、**服务项目页**、**联系入口页**、**管理后台**，以及新增的**用户注册页 / 登录页 / 聊天室**七个页面。用户账号与即时聊天（文字 + 压缩图片）后端使用 **Supabase 免费版**，配置与部署见 [ACCOUNT-CHAT-GUIDE.md](ACCOUNT-CHAT-GUIDE.md)。
 
 ## 一、目录结构
 
@@ -25,16 +38,27 @@ output/
 ├── services.html         服务项目页（六大服务 + 分游戏价目表 + 服务保障 + FAQ）
 ├── contact.html          联系入口页（联系方式 + 在线需求表单 + 其他沟通渠道）
 ├── admin.html            管理后台（登录门 + 内容管理 / 发布到线上 / 数据看板 / 订单管理 / 服务管理 / 客户留言 / 站点设置）
+├── login.html            登录页（邮箱 + 密码，Supabase Auth）
+├── register.html         注册页（昵称 + 邮箱 + 密码）
+├── chat.html             聊天室（会话列表 + 一对一 / 群聊 + 实时消息 + 图片发送）
 ├── README.md             本说明文件
+├── ACCOUNT-CHAT-GUIDE.md 账号与聊天功能的部署 / 使用说明（Supabase 配置、SQL、排查）
+├── sql/
+│   └── supabase-schema.sql  数据库一键初始化脚本（建表 + RLS 策略 + 视图 + RPC + 图片桶 + Realtime）
 └── assets/
     ├── css/
-    │   └── style.css     全站统一样式（深色电竞风、响应式）
+    │   ├── style.css     全站统一样式（深色电竞风、响应式）
+    │   └── app.css       账号页与聊天室专用样式（沿用同一套设计变量）
     ├── data/
     │   └── site-data.json 线上已发布的内容数据（由后台「发布到线上」提交到仓库，首次发布时自动创建）
     └── js/
         ├── site-data.js    前台内容数据源（默认内容 + 线上已发布数据 + 读写 localStorage + 渲染前台页面）
         ├── main.js         前台公共脚本（导航、标签页、FAQ 折叠、复制、返回顶部、Toast）
         ├── order-form.js   联系页需求表单校验 + 本机存储
+        ├── supabase-config.js Supabase 集中配置（项目地址、匿名 key、图片压缩参数；唯一需要修改的后端配置文件）
+        ├── account.js      账号模块（注册 / 登录 / 退出 / 导航账号信息，导出 window.GB_AUTH）
+        ├── chat.js         聊天室逻辑（会话列表、一对一与群聊、实时消息、图片压缩与上传、群管理）
+        ├── admin-auth-config.js 管理后台管理员账号配置（登录账号 / 密码 / 顶栏显示名，由站长本人修改）
         ├── admin.js        后台基础交互逻辑（登录、看板、订单、服务、留言、设置）
         ├── admin-content.js 后台「内容管理」编辑器（可视化修改前台内容并保存）
         └── admin-publish.js 后台「发布到线上」（通过 GitHub API 提交数据文件、触发 Pages 重建）
@@ -44,11 +68,11 @@ output/
 
 1. 直接双击 `index.html`，用浏览器（Chrome / Edge）打开即可预览，无需服务器、无需联网。
 2. 顶部导航可在四个页面之间跳转。
-3. 进入 **管理后台** 需登录：
-   - 演示账号：`admin`
-   - 演示密码：`123456`
+3. 进入 **管理后台** 需登录：管理员账号与密码**由你自己设置**，位置是 `assets/js/admin-auth-config.js`（详见第九节「管理后台管理员账号配置」）。**首次使用前必须先填写该文件**，否则后台无法登录，页面会提示「管理员账号尚未配置」。
 4. 想改站内文案、价格、联系方式，登录后台后进入 **内容管理** 页面修改（详见下一节）。
 5. 改完想让**公网访客**也看到，需要把内容**发布到线上**（详见第四节）：在后台 **🚀 发布到线上** 填一次 GitHub Token，之后每次改完点「立即发布到线上」即可，约 1 分钟后全站生效。线上网址：`https://gu060125.github.io/gushou-esports/`。
+6. 想体验**用户注册 / 登录与聊天室**：先按 [ACCOUNT-CHAT-GUIDE.md](ACCOUNT-CHAT-GUIDE.md) 用 Supabase 免费版建好后端、把项目地址与匿名 key 填进 `assets/js/supabase-config.js`，然后浏览器打开 `register.html` 注册、`login.html` 登录、`chat.html` 聊天。**未配置时页面会给出提示条并引导到说明文档，不会报错崩溃。**
+   - 提示：聊天功能建议用本地 HTTP 服务预览（如 `python -m http.server 8080`）或直接访问线上网址，部分浏览器用 `file://` 双击打开时会拦截跨域请求导致注册或实时消息异常。
 
 ## 品牌名称与 Logo（全站统一）
 
@@ -64,7 +88,7 @@ output/
 
 ### 1. 操作路径
 
-1. 用浏览器打开 `admin.html`，输入账号 `admin` / 密码 `123456` 登录；
+1. 用浏览器打开 `admin.html`，输入你在 `assets/js/admin-auth-config.js` 中设置的管理员账号与密码登录；
 2. 左侧进入 **📝 内容管理**（默认首页），页面按分组折叠展示，共 13 组：
    - 品牌信息与页脚（站点名称、副标题、标语、页脚简介 / 版权 / 提示语 / 页脚导航与联系方式列表）
    - 首页 · 首屏大图区（标题、简介、按钮文字、右侧进度看板条目）
@@ -201,7 +225,45 @@ output/
 | 发布成功但访客看到的还是旧内容 | ① Pages 还在重建，等 1 分钟再刷新；② 浏览器缓存，按 `Ctrl + F5` 强刷或加 `?v=2`；③ 到仓库 **Settings → Pages** 确认 Pages 已启用。 |
 | 只在本机看得到改动 | 还没发布或发布失败。「保存并生效」只写本机浏览器，必须点 **立即发布到线上**。 |
 
-## 五、页面内容说明
+## 五、用户账号与即时聊天（Supabase 后端）
+
+本站新增了**用户注册 / 登录**与**即时聊天**功能：支持一对一与群聊、文字消息、图片消息（发送前在浏览器本地压缩并限制体积，不含视频），后端使用 **Supabase 免费版**（Auth + Postgres + Storage + Realtime），前端仍是纯静态页面，不需要自建服务器。
+
+> 📘 **完整的部署与使用说明见 [ACCOUNT-CHAT-GUIDE.md](ACCOUNT-CHAT-GUIDE.md)**：Supabase 建项目、执行 SQL、邮箱验证设置、填入项目地址与匿名 key、部署与自检清单、常见问题排查、安全注意事项。本节只做速览。
+
+### 1. 新增页面与脚本
+
+| 文件 | 作用 |
+| --- | --- |
+| `login.html` / `register.html` | 登录页 / 注册页（邮箱 + 密码），登录成功后进入聊天室 |
+| `chat.html` | 聊天室：会话列表、消息区、新建会话 / 建群 / 拉人 / 资料弹窗 |
+| `assets/js/supabase-config.js` | **唯一需要修改的后端配置文件**：Supabase 项目地址、匿名 key、图片压缩参数 |
+| `assets/js/account.js` | 账号模块（注册 / 登录 / 退出 / 导航栏账号信息），导出 `window.GB_AUTH` |
+| `assets/js/chat.js` | 聊天逻辑（会话列表、一对一与群聊、实时消息、图片压缩上传、群管理） |
+| `assets/css/app.css` | 账号页与聊天室样式，沿用现有深色电竞风设计变量 |
+| `sql/supabase-schema.sql` | 数据库一键初始化：建表、索引、触发器、RLS 策略、会话汇总视图、业务 RPC、图片私有桶与策略、Realtime 发布 |
+
+### 2. 三步跑通
+
+1. **建后端**：<https://supabase.com> 新建免费项目 → **SQL Editor** 里执行 `sql/supabase-schema.sql` 全文 → **Project Settings → API** 复制 `Project URL` 与 `anon public` key（**不要**复制 `service_role`）。
+2. **填配置**：把上面两个值填进 `assets/js/supabase-config.js` 的 `url` / `anonKey`（其余参数一般无需改动）。未填写时页面会显示提示条并给出说明文档入口，不会报错。
+3. **用起来**：打开 `register.html` 注册（若 Supabase 开启了邮箱验证，需先到邮箱点确认链接）→ `login.html` 登录 → 自动进入 `chat.html`。两个账号即可测试一对一与群聊、图片发送；实时消息无需刷新页面。
+
+### 3. 图片压缩与体积限制
+
+发送图片前在**浏览器本地**完成压缩，节省流量与 Supabase 免费额度：原图上限 10 MB，压缩后最长边 1600 px、目标体积 500 KB、上传硬上限 1 MB（服务端桶限制 2 MB 兜底）。全部阈值都在 `assets/js/supabase-config.js` 中可调。图片存放在**私有桶** `chat-images`，通过临时签名链接展示，仅会话成员可读。
+
+### 4. 数据与安全
+
+- 账号与聊天数据存在 **Supabase 云端**，换设备登录同一账号即可看到历史消息；与原有站点的 `localStorage` 数据（内容、订单）**互不影响**。
+- 四张表全部开启 **RLS 行级安全**，数据访问按「登录用户是否为该会话成员」判定，未登录用户拿不到任何聊天数据。
+- 前端只放 **anon 公开密钥**（官方设计，本身不算泄露）；**`service_role` key 严禁写入前端**。
+
+### 5. 预览建议
+
+聊天功能建议使用**本地 HTTP 服务**（在站点目录执行 `python -m http.server 8080` 后访问 `http://localhost:8080/chat.html`）或直接访问**线上网址**；部分浏览器用 `file://` 双击打开时会拦截跨域请求 / WebSocket，导致注册或实时消息异常。
+
+## 六、页面内容说明
 
 ### 1. 首页 `index.html`
 - 首屏 Hero：定位主张 + 实时代练进度看板（示例）
@@ -230,6 +292,7 @@ output/
 - 下单前确认 FAQ
 
 ### 4. 管理后台 `admin.html`
+- **登录门槛**：打开页面先显示登录门，管理员账号与密码来自 `assets/js/admin-auth-config.js`（站点不再内置公开默认账号，未配置时页面会提示「管理员账号尚未配置」且无法进入）；登录标记写在 `sessionStorage`（键名 `gb_admin_auth`），关闭标签页即失效（详见第九节）
 - **发布到线上**：填写 / 显示 / 清除 GitHub Token（仅存本机浏览器），一键把当前内容数据提交到 GitHub 仓库并触发 Pages 重建；含发布前检查清单、四步状态反馈与失败排查（详见第四节）
 - **内容管理**：可视化编辑前台全部展示内容（13 个分组，覆盖产业介绍、服务项目与价格、联系方式、页脚、FAQ 等），支持条目增删、保存并生效、导出 JSON 备份、一键恢复默认内容
 - **数据看板**：今日订单 / 订单总数 / 预估交易额 / 进行中订单 四张 KPI 卡；近 7 日订单趋势柱状图；服务项目占比进度条；打手接单排行 TOP5
@@ -238,7 +301,12 @@ output/
 - **客户留言**：汇总联系页表单中填写的补充说明与联系方式
 - **站点设置**：站点名称与客服信息维护（改动会自动同步到前台品牌与联系方式）、四项功能开关（在线下单 / 加急通道 / 自动派单 / 维护模式）、全量数据导出与清空
 
-## 六、数据说明（重要）
+### 5. 登录页 / 注册页 / 聊天室 `login.html` / `register.html` / `chat.html`
+- **登录页**：邮箱 + 密码登录，错误提示已中文化（密码错误、邮箱未验证、未配置 Supabase 等）；已登录用户打开时会显示「进入聊天室」快捷入口。
+- **注册页**：昵称（2–20 字符，支持中文 / 字母 / 数字 / 下划线，库内唯一）+ 邮箱 + 密码 + 确认密码 + 协议勾选；若 Supabase 开启了邮箱验证，会提示去邮箱完成验证。
+- **聊天室**：左侧会话列表（头像 / 标题 / 最后一条消息 / 时间 / 未读红点），右侧消息区（气泡、时间分组、图片卡片）；支持搜索用户发起一对一、建群 / 拉人 / 改群名 / 退群、实时消息、正在输入提示、图片本地压缩后发送、昵称资料修改。
+
+## 七、数据说明（重要）
 
 本站为**纯静态演示站点**，没有任何后端服务：
 
@@ -248,19 +316,65 @@ output/
 - **线上已发布内容**保存在仓库的 `assets/data/site-data.json`，由后台「发布到线上」通过 GitHub API 提交。前台读取优先级为：**本机 `localStorage`（`gb_site_v1`）> 线上已发布数据 > 内置默认数据**。访客浏览器里没有本机数据，看到的就是线上已发布数据；本机清除浏览器数据后会退回显示线上已发布数据（详见第四节）。
 - GitHub Token 与发布记录分别保存在本机 `localStorage` 的 `gb_gh_token`、`gb_publish_meta`，可随时在后台「发布到线上」清除 Token；Token 不会出现在任何发布产物中。
 - 后台的服务配置与站点设置分别保存在 `gb_services`、`gb_settings`；这两份旧数据会在打开后台时自动迁移/同步到 `gb_site_v1`（迁移标记：`gb_site_migrated_v1`），保证「服务管理 / 站点设置」的修改同样体现在前台。
-- 登录状态保存在 `sessionStorage`（键名 `gb_admin_auth`），关闭浏览器标签页即失效。
+- 管理后台的登录状态保存在本机 `sessionStorage`（键名 `gb_admin_auth`，值为管理员账号名），关闭浏览器标签页即失效；它只是本机浏览器里的一个标记，不参与任何服务端校验（安全边界见第九节）。
+- **用户账号与聊天数据不放本机**：注册用户、会话、消息、聊天图片全部存放在 **Supabase 云端**（表结构见 `sql/supabase-schema.sql`），前端仅通过匿名密钥访问、由数据库 RLS 策略控制权限。这部分数据与本节的 `localStorage` 数据完全独立，互不影响（详见第五节）。
 - 首次打开后台时，若本机没有订单数据，系统会自动生成 16 条**示例订单**用于演示，可随时在「站点设置 → 数据管理」中一键清空。
 - 页面中的价格、订单量、打手排名等均为**示例数据**，不代表真实市场报价。
 - 内容与订单都只存在本机浏览器：**换电脑 / 换浏览器 / 清理浏览器数据后，会回到默认的示例内容**。重要内容请在「内容管理」中先「导出内容 JSON」备份。
 
-## 七、浏览器兼容
+## 八、浏览器兼容
 
 - Chrome / Edge 90+、Firefox 90+、Safari 15+ 均可正常预览。
 - 已适配移动端（≤820px 自动折叠导航栏，后台侧栏横向滚动）。
 
-## 八、免责声明
+## 九、管理后台管理员账号配置（含生效方式与安全边界）
+
+后台登录门的管理员账号与密码**不再写死在页面代码里**，已抽取到独立配置文件 `assets/js/admin-auth-config.js`，由站长本人自行修改。
+
+### 1. 修改位置
+
+打开 `assets/js/admin-auth-config.js`（记事本 / VS Code 均可），修改下面三个字段后保存：
+
+| 字段 | 是否必填 | 说明 |
+| --- | --- | --- |
+| `username` | 必填 | 你的管理员登录账号，建议不要用 `admin`、`root`、`123456` 这类易猜词 |
+| `password` | 必填 | 你的管理员登录密码，建议 12 位以上、字母数字符号混合 |
+| `displayName` | 可选 | 登录后后台顶栏显示的名字，留空则显示「管理员」 |
+
+示例：
+
+```js
+window.GB_ADMIN_AUTH = {
+  username: "gushou_admin_2026",
+  password: "换成一个只有你自己知道的密码",
+  displayName: "站长"
+};
+```
+
+### 2. 生效方式
+
+- 保存文件后，回到后台页面按 **Ctrl + F5**（强制刷新，避免浏览器继续用旧缓存）即生效，无需重启服务、无需重新发布内容。
+- 如果当时已经进了后台，请先点右上角 **退出登录**，再刷新让登录门重新出现。
+- 改过账号或密码后，旧的登录状态会立即失效（登录标记里存的是账号名，对不上就要求重新登录）。
+- 线上（GitHub Pages）同理：把改好的 `assets/js/admin-auth-config.js` 一起提交到仓库，访客打开的后台才会用新账号；否则线上仍是旧配置。
+- 未填写 `username` / `password` 时，后台会显示「管理员账号尚未配置：请打开 assets/js/admin-auth-config.js…」并且无法进入，属正常现象，填完刷新即可。
+
+### 3. 安全边界（务必了解）
+
+本站是**纯静态站点**（只有 HTML / CSS / JS，没有服务端、没有数据库鉴权），后台登录只是一次**前端字符串比对**：
+
+- **账号密码是明文**：任何人打开 `assets/js/admin-auth-config.js` 或查看页面源码，都能直接看到你填的账号与密码，它无法被加密。
+- **可被绕过**：有技术基础的人无需密码也可绕过这道门（例如在浏览器控制台手动写入登录标记，或直接查看后台所读的本机数据）。因此它**不是**真正的访问控制。
+- **它实际能挡住什么**：防止访客随手点进后台、避免后台被误当成公开页面，即一层「防误入」的门槛。
+- **什么时候必须换成真鉴权**：只要后台要管理真实订单、真实用户资料，或站点正式对外运营，就必须改用服务端鉴权（例如复用本站已有的 Supabase Auth：用户登录后校验管理员身份，并配合数据库 RLS 策略），否则任何人都能打开后台页面。
+- **不要把真实敏感信息交给后台**：当前后台的内容（价格文案、示例订单、联系方式、GitHub Token 仅存本机）都属于「可公开的站点内容 + 本机数据」，不适合存放真实客户隐私或支付信息。
+- **提交到公开仓库就等于公开**：一旦把整套文件推送到公开仓库（含 GitHub Pages 发布），配置文件也会一并公开；要保密只能不把后台部署到公网，或改用服务端鉴权。
+
+## 十、免责声明
 
 本站点为设计演示用途，全部业务数据、价格与联系方式均为虚构示例。真实运营游戏代练业务需遵守当地法律法规与游戏平台的用户协议，并注意未成年人保护与理性消费引导。
+*（内容由AI生成，仅供参考）*
+*（内容由AI生成，仅供参考）*
 *（内容由AI生成，仅供参考）*
 *（内容由AI生成，仅供参考）*
 *（内容由AI生成，仅供参考）*

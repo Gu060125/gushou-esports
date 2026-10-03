@@ -1,0 +1,142 @@
+﻿<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>登录账号 | 顾手游电竞</title>
+<meta name="description" content="登录顾手游电竞账号，进入聊天室与客服、队友一对一或群聊沟通。">
+<link rel="stylesheet" href="assets/css/style.css">
+<link rel="stylesheet" href="assets/css/app.css">
+</head>
+<body>
+
+<!-- ================= 顶部导航 ================= -->
+<header class="site-header">
+  <div class="container nav-wrap">
+    <a class="logo" href="index.html">
+      <span class="logo-mark">顾</span>
+      <span><span data-gb-text="brand.name">顾手游电竞</span><small data-gb-text="brand.short">GU ESPORTS</small></span>
+    </a>
+
+    <nav class="nav-links">
+      <a href="index.html">首页</a>
+      <a href="services.html">服务项目</a>
+      <a href="contact.html">联系下单</a>
+      <a href="chat.html">聊天室</a>
+      <a href="admin.html">管理后台</a>
+    </nav>
+
+    <div class="nav-actions">
+      <a class="btn btn-ghost btn-sm" href="services.html">价目表</a>
+      <a class="btn btn-primary btn-sm" href="contact.html">立即咨询</a>
+    </div>
+
+    <button class="nav-toggle" aria-label="菜单">☰</button>
+  </div>
+</header>
+
+<main>
+
+  <section class="auth-section">
+    <div class="container auth-grid">
+
+      <!-- ---------- 登录表单 ---------- -->
+      <div class="auth-card">
+        <span class="badge-demo">用户账号</span>
+        <h1>登录账号</h1>
+        <p class="auth-sub">登录后即可进入聊天室，与打手 / 客服一对一沟通，或与队友拉群协作。</p>
+
+        <div class="alert alert-success" id="loginSuccess"></div>
+        <div class="alert alert-error" id="loginError"></div>
+
+        <form id="loginForm" novalidate>
+          <div class="form-grid">
+            <div class="field full">
+              <label for="loginEmail">邮箱 <span class="req">*</span></label>
+              <input id="loginEmail" type="email" autocomplete="email" placeholder="you@example.com" required>
+            </div>
+            <div class="field full">
+              <label for="loginPassword">密码 <span class="req">*</span></label>
+              <input id="loginPassword" type="password" autocomplete="current-password" placeholder="至少 6 位" required>
+            </div>
+          </div>
+          <div style="margin-top:22px">
+            <button class="btn btn-primary btn-block" id="loginBtn" type="submit">登 录</button>
+          </div>
+        </form>
+
+        <div class="auth-foot">
+          还没有账号？<a href="register.html">立即注册</a>
+          <span style="margin:0 6px;color:#3a4763">|</span>
+          <a href="chat.html">直接进入聊天室</a>
+        </div>
+      </div>
+
+      <!-- ---------- 侧栏说明 ---------- -->
+      <aside class="auth-aside">
+        <div class="card">
+          <h3>登录后可以做什么</h3>
+          <ul>
+            <li>进入聊天室，与客服 / 打手一对一私聊</li>
+            <li>创建群聊，把队友与客服拉进同一个房间</li>
+            <li>发送文字与图片（图片自动压缩，省流量不糊图）</li>
+            <li>消息实时到达，换设备登录也能看到历史记录</li>
+          </ul>
+          <div class="divider"></div>
+          <h3>账号规则</h3>
+          <ul>
+            <li>邮箱 + 密码注册，密码至少 6 位</li>
+            <li>注册后可能需要到邮箱点击验证链接</li>
+            <li>昵称用于被队友搜索，注册后可在聊天室修改</li>
+            <li>请勿在聊天中透露账号密码等敏感信息</li>
+          </ul>
+        </div>
+      </aside>
+
+    </div>
+  </section>
+
+</main>
+
+<!-- ================= 页脚 ================= -->
+<footer class="site-footer">
+  <div class="container footer-grid">
+    <div>
+      <a class="logo" href="index.html">
+        <span class="logo-mark">顾</span>
+        <span><span data-gb-text="brand.name">顾手游电竞</span><small data-gb-text="brand.short">GU ESPORTS</small></span>
+      </a>
+      <p class="footer-desc" data-gb-text="brand.footerDesc">专业游戏段位代练与陪玩服务平台，实名打手、进度可视、封号包赔。</p>
+      <p class="footer-slogan" data-gb-text="brand.slogan">实名打手 · 进度可视 · 封号包赔</p>
+    </div>
+
+    <div>
+      <h4>站内导航</h4>
+      <div class="footer-links" data-gb-list="footer.nav" data-gb-tpl="footerNav"></div>
+    </div>
+
+    <div>
+      <h4>热门服务</h4>
+      <div class="footer-links" data-gb-list="footer.services" data-gb-tpl="footerPlain"></div>
+    </div>
+
+    <div>
+      <h4>联系方式</h4>
+      <div class="footer-links" data-gb-list="footer.contactLines" data-gb-tpl="footerPlain"></div>
+    </div>
+  </div>
+
+  <div class="container footer-bottom">
+    <span data-gb-text="footer.copyright">© 2026 顾手游电竞 · 本站为静态演示站点</span>
+    <span data-gb-text="footer.tip">理性游戏 · 适度消费 · 未成年人禁止下单</span>
+  </div>
+</footer>
+
+<button class="to-top" aria-label="返回顶部">↑</button>
+
+<script src="assets/js/site-data.js"></script>
+<script src="assets/js/main.js"></script>
+<script src="assets/js/supabase-config.js"></script>
+<script src="assets/js/account.js"></script>
+</body>
+</html>

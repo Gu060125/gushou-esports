@@ -1,0 +1,248 @@
+﻿<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>聊天室 | 顾手游电竞</title>
+<meta name="description" content="顾手游电竞聊天室：一对一私聊、多人群聊、实时消息与图片发送，登录后即可使用。">
+<link rel="stylesheet" href="assets/css/style.css">
+<link rel="stylesheet" href="assets/css/app.css">
+</head>
+<body>
+
+<!-- ================= 顶部导航 ================= -->
+<header class="site-header">
+  <div class="container nav-wrap">
+    <a class="logo" href="index.html">
+      <span class="logo-mark">顾</span>
+      <span><span data-gb-text="brand.name">顾手游电竞</span><small data-gb-text="brand.short">GU ESPORTS</small></span>
+    </a>
+
+    <nav class="nav-links">
+      <a href="index.html">首页</a>
+      <a href="services.html">服务项目</a>
+      <a href="contact.html">联系下单</a>
+      <a href="chat.html" class="active">聊天室</a>
+      <a href="admin.html">管理后台</a>
+    </nav>
+
+    <div class="nav-actions">
+      <a class="btn btn-ghost btn-sm" href="services.html">价目表</a>
+      <a class="btn btn-primary btn-sm" href="contact.html">立即咨询</a>
+    </div>
+
+    <button class="nav-toggle" aria-label="菜单">☰</button>
+  </div>
+</header>
+
+<main>
+
+  <section class="chat-page">
+    <div class="container">
+      <div class="chat-shell">
+
+        <!-- ================= 左侧：我的资料 + 会话列表 ================= -->
+        <aside class="chat-side">
+          <div class="chat-side-head">
+            <div class="me-card">
+              <span class="avatar" id="meAvatar">顾</span>
+              <div class="me-info">
+                <b id="meName">加载中…</b>
+                <span id="meUsername">@-</span>
+              </div>
+            </div>
+            <button class="btn btn-ghost btn-sm btn-block" id="btnNewChat" type="button">＋ 新建会话</button>
+          </div>
+
+          <div class="chat-search">
+            <input id="convSearch" type="text" placeholder="搜索会话" autocomplete="off">
+          </div>
+
+          <div class="conv-list" id="convList">
+            <div class="side-empty">正在加载会话…</div>
+          </div>
+
+          <div class="chat-side-foot">
+            <button class="btn btn-ghost btn-sm" id="btnProfile" type="button">账号信息</button>
+            <button class="btn btn-ghost btn-sm" id="btnSignOut" type="button">退出登录</button>
+          </div>
+        </aside>
+
+        <!-- ================= 右侧：消息区 ================= -->
+        <section class="chat-main">
+          <header class="chat-topbar">
+            <div class="ct-title">
+              <b id="chatTitle">选择一个会话</b>
+              <span id="chatSub">从左侧选择会话，或点击「新建会话」开始一对一 / 群聊</span>
+            </div>
+            <div class="chat-top-actions">
+              <button class="btn btn-ghost btn-sm" id="btnAddMember" type="button" hidden>＋ 拉人</button>
+              <button class="btn btn-ghost btn-sm" id="btnRenameGroup" type="button" hidden>重命名</button>
+              <button class="btn btn-ghost btn-sm" id="btnLeaveGroup" type="button" hidden>退出群聊</button>
+            </div>
+          </header>
+
+          <div class="chat-body" id="msgList">
+            <div class="chat-empty">
+              <span class="ce-icon">💬</span>
+              正在准备聊天室…
+            </div>
+          </div>
+
+          <div class="typing-hint" id="typingHint"></div>
+
+          <form class="composer" id="composer">
+            <div class="img-chip" id="imgChip" hidden></div>
+            <textarea id="msgInput" rows="1" placeholder="请先选择左侧会话" disabled></textarea>
+            <input type="file" id="fileInput" accept="image/*" hidden>
+            <div class="composer-btns">
+              <button class="btn btn-ghost btn-sm" id="btnPickImage" type="button" disabled>图片</button>
+              <button class="btn btn-primary btn-sm" id="btnSend" type="submit" disabled>发送</button>
+            </div>
+          </form>
+        </section>
+
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- ================= 弹窗：新建会话 ================= -->
+<div class="modal-mask" id="newChatMask" hidden>
+  <div class="modal">
+    <div class="modal-head">
+      <b>新建会话</b>
+      <button type="button" id="newChatClose" aria-label="关闭">✕</button>
+    </div>
+
+    <div class="tabs" data-tabs>
+      <button class="tab active" type="button" data-tab="direct">一对一私聊</button>
+      <button class="tab" type="button" data-tab="group">创建群聊</button>
+    </div>
+
+    <div class="tab-panel active" data-panel="direct">
+      <input class="user-search-input" id="userSearch" type="text" placeholder="搜索昵称或账号名" autocomplete="off">
+      <div class="user-list" id="userResult">
+        <div class="list-hint">输入昵称或账号开始搜索</div>
+      </div>
+    </div>
+
+    <div class="tab-panel" data-panel="group">
+      <div class="field full" style="margin-bottom:12px">
+        <label for="groupTitle">群名称（可选）</label>
+        <input id="groupTitle" type="text" maxlength="30" placeholder="例如：赛季冲刺小队">
+      </div>
+      <input class="user-search-input" id="groupSearch" type="text" placeholder="搜索昵称或账号，点击加入群聊" autocomplete="off">
+      <div class="chips" id="groupChips"></div>
+      <div class="user-list" id="groupResult">
+        <div class="list-hint">输入昵称或账号，点击加入群聊</div>
+      </div>
+      <button class="btn btn-primary btn-block" id="btnCreateGroup" type="button">创建群聊</button>
+    </div>
+  </div>
+</div>
+
+<!-- ================= 弹窗：拉人进群 ================= -->
+<div class="modal-mask" id="addMemberMask" hidden>
+  <div class="modal">
+    <div class="modal-head">
+      <b>添加群成员</b>
+      <button type="button" id="addMemberClose" aria-label="关闭">✕</button>
+    </div>
+    <input class="user-search-input" id="addSearch" type="text" placeholder="搜索昵称或账号" autocomplete="off">
+    <div class="chips" id="addChips"></div>
+    <div class="user-list" id="addResult">
+      <div class="list-hint">输入昵称或账号，点击选择要拉入的成员</div>
+    </div>
+    <button class="btn btn-primary btn-block" id="btnConfirmAdd" type="button">确认添加</button>
+  </div>
+</div>
+
+<!-- ================= 弹窗：账号信息 ================= -->
+<div class="modal-mask" id="profileMask" hidden>
+  <div class="modal">
+    <div class="modal-head">
+      <b>账号信息</b>
+      <button type="button" id="profileClose" aria-label="关闭">✕</button>
+    </div>
+    <form id="profileForm" novalidate>
+      <div class="form-grid">
+        <div class="field full">
+          <label for="profileName">显示昵称</label>
+          <input id="profileName" type="text" maxlength="20" placeholder="其他用户看到的名称">
+        </div>
+        <div class="field full">
+          <label for="profileUsername">账号名（不可修改）</label>
+          <input id="profileUsername" type="text" disabled>
+        </div>
+        <div class="field full">
+          <label for="profileEmail">邮箱</label>
+          <input id="profileEmail" type="text" disabled>
+        </div>
+        <div class="field full">
+          <label for="profileId">用户 ID</label>
+          <input id="profileId" type="text" disabled>
+        </div>
+      </div>
+      <div style="margin-top:20px">
+        <button class="btn btn-primary btn-block" type="submit">保存修改</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- ================= 弹窗：图片放大 ================= -->
+<div class="modal-mask" id="imgViewerMask" hidden>
+  <div class="modal img-viewer">
+    <div class="modal-head">
+      <b>图片预览</b>
+      <button type="button" id="imgViewerClose" aria-label="关闭">✕</button>
+    </div>
+    <img id="imgViewerImg" src="" alt="聊天图片预览">
+  </div>
+</div>
+
+<!-- ================= 页脚 ================= -->
+<footer class="site-footer">
+  <div class="container footer-grid">
+    <div>
+      <a class="logo" href="index.html">
+        <span class="logo-mark">顾</span>
+        <span><span data-gb-text="brand.name">顾手游电竞</span><small data-gb-text="brand.short">GU ESPORTS</small></span>
+      </a>
+      <p class="footer-desc" data-gb-text="brand.footerDesc">专业游戏段位代练与陪玩服务平台，实名打手、进度可视、封号包赔。</p>
+      <p class="footer-slogan" data-gb-text="brand.slogan">实名打手 · 进度可视 · 封号包赔</p>
+    </div>
+
+    <div>
+      <h4>站内导航</h4>
+      <div class="footer-links" data-gb-list="footer.nav" data-gb-tpl="footerNav"></div>
+    </div>
+
+    <div>
+      <h4>热门服务</h4>
+      <div class="footer-links" data-gb-list="footer.services" data-gb-tpl="footerPlain"></div>
+    </div>
+
+    <div>
+      <h4>联系方式</h4>
+      <div class="footer-links" data-gb-list="footer.contactLines" data-gb-tpl="footerPlain"></div>
+    </div>
+  </div>
+
+  <div class="container footer-bottom">
+    <span data-gb-text="footer.copyright">© 2026 顾手游电竞 · 本站为静态演示站点</span>
+    <span data-gb-text="footer.tip">理性游戏 · 适度消费 · 未成年人禁止下单</span>
+  </div>
+</footer>
+
+<button class="to-top" aria-label="返回顶部">↑</button>
+
+<script src="assets/js/site-data.js"></script>
+<script src="assets/js/main.js"></script>
+<script src="assets/js/supabase-config.js"></script>
+<script src="assets/js/account.js"></script>
+<script src="assets/js/chat.js"></script>
+</body>
+</html>

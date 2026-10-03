@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>管理后台 | 顾手游电竞</title>
-<meta name="description" content="顾手游电竞管理后台演示：数据看板、订单管理、服务项目配置、站点设置。">
+<meta name="description" content="顾手游电竞管理后台：数据看板、订单管理、服务项目配置、站点设置。">
 <link rel="stylesheet" href="assets/css/style.css">
 </head>
 <body class="admin-body">
@@ -24,7 +24,7 @@
     <form id="loginForm" novalidate>
       <div class="field" style="margin-bottom:14px">
         <label for="lg-user">管理员账号</label>
-        <input type="text" id="lg-user" value="admin" autocomplete="username">
+        <input type="text" id="lg-user" placeholder="请输入账号" autocomplete="username">
       </div>
       <div class="field" style="margin-bottom:18px">
         <label for="lg-pass">登录密码</label>
@@ -33,7 +33,7 @@
       <button class="btn btn-primary btn-block" type="submit">登 录</button>
     </form>
 
-    <div class="login-hint">演示账号：<b>admin</b>　演示密码：<b>123456</b><br>本页为纯前端演示，无真实鉴权与服务端交互</div>
+    <div class="login-welcome">欢迎加入顾手游电竞</div>
     <p style="text-align:center;margin-top:16px;font-size:12.6px">
       <a href="index.html" style="color:var(--muted)">← 返回网站首页</a>
     </p>
@@ -51,7 +51,7 @@
     <div class="admin-user">
       <span id="nowText">—</span>
       <span class="admin-avatar">管</span>
-      <span style="color:var(--text);font-weight:700">admin</span>
+      <span id="adminUserText" style="color:var(--text);font-weight:700">管理员</span>
       <button class="btn btn-ghost btn-sm" type="button" id="logoutBtn">退出登录</button>
     </div>
   </header>
@@ -96,6 +96,7 @@
             <a href="index.html" target="_blank" rel="noopener">首页</a>
             <a href="services.html" target="_blank" rel="noopener">服务与价目</a>
             <a href="contact.html" target="_blank" rel="noopener">联系下单</a>
+            <a href="chat.html" target="_blank" rel="noopener">用户聊天室</a>
           </p>
           <p style="font-size:12.6px;color:var(--muted);line-height:1.8">
             提示：内容保存在本机浏览器的 localStorage（键名 gb_site_v1），与前台页面共用；换浏览器或清理浏览器数据后会回到默认内容，建议重要内容先「导出内容 JSON」备份。旧版「服务管理 / 站点设置」中的修改会自动同步到本页内容。
@@ -428,6 +429,7 @@
 
 <div class="toast-wrap"></div>
 <script src="assets/js/site-data.js"></script>
+<script src="assets/js/admin-auth-config.js"></script>
 <script src="assets/js/admin.js"></script>
 <script src="assets/js/admin-content.js"></script>
 <script src="assets/js/admin-publish.js"></script>
