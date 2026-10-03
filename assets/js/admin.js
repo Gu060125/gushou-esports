@@ -10,8 +10,13 @@
   var K_SERVICES = "gb_services";
   var K_SETTINGS = "gb_settings";
   var K_AUTH = "gb_admin_auth";
-  var DEMO_USER = "admin";
-  var DEMO_PASS = "123456";
+
+  /* 管理员账号与密码来自独立配置文件 assets/js/admin-auth-config.js（window.GB_ADMIN_AUTH） */
+  var AUTH_CFG = window.GB_ADMIN_AUTH || {};
+  var ADMIN_USER = String(AUTH_CFG.username || "");
+  var ADMIN_PASS = String(AUTH_CFG.password || "");
+  var ADMIN_NAME = String(AUTH_CFG.displayName || "") || "管理员";
+  var AUTH_READY = ADMIN_USER !== "" && ADMIN_PASS !== "";
 
   var STATUS_LIST = ["待处理", "进行中", "已完成", "已取消"];
   var GAMES = ["英雄联盟", "王者荣耀", "无畏契约", "永劫无间", "其他游戏"];
@@ -170,6 +175,14 @@
     var shell = $("#adminShell");
     var form = $("#loginForm");
     var errBox = $("#loginError");
+    var userText = $("#adminUserText");
+
+    if (userText) { userText.textContent = ADMIN_NAME; }
+
+    function fail(msg) {
+      errBox.textContent = msg;
+      errBox.classList.add("show");
+    }
 
     function enter() {
       gate.style.display = "none";
@@ -177,20 +190,27 @@
       start();
     }
 
-    if (sessionStorage.getItem(K_AUTH) === "1") { enter(); return; }
+    if (!AUTH_READY) {
+      fail("管理员账号尚未配置：请打开 assets/js/admin-auth-config.js，填写 username 与 password 后刷新本页。");
+    }
+
+    if (AUTH_READY && sessionStorage.getItem(K_AUTH) === ADMIN_USER) { enter(); return; }
 
     form.addEventListener("submit", function (e) {
       e.preventDefault();
+      if (!AUTH_READY) {
+        fail("管理员账号尚未配置：请打开 assets/js/admin-auth-config.js，填写 username 与 password 后刷新本页。");
+        return;
+      }
       var u = $("#lg-user").value.trim();
       var p = $("#lg-pass").value;
-      if (u === DEMO_USER && p === DEMO_PASS) {
-        sessionStorage.setItem(K_AUTH, "1");
+      if (u === ADMIN_USER && p === ADMIN_PASS) {
+        sessionStorage.setItem(K_AUTH, ADMIN_USER);
         errBox.classList.remove("show");
         enter();
         toast("登录成功，欢迎回来", "ok");
       } else {
-        errBox.textContent = "账号或密码错误，请使用演示账号 admin / 123456。";
-        errBox.classList.add("show");
+        fail("账号或密码错误，请检查后重试。");
       }
     });
   }

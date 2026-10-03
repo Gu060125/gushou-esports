@@ -278,6 +278,8 @@
         { text: "首页", href: "index.html" },
         { text: "服务项目", href: "services.html" },
         { text: "联系下单", href: "contact.html" },
+        { text: "用户聊天室", href: "chat.html" },
+        { text: "登录 / 注册", href: "login.html" },
         { text: "管理后台", href: "admin.html" }
       ],
       services: ["段位代练", "排位上分", "定级赛 / 定位赛", "双排陪玩"],
